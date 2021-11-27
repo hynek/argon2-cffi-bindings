@@ -1,0 +1,104 @@
+---
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  FORCE_COLOR: "1"  # Make tools pretty.
+  TOX_TESTENV_PASSENV: "FORCE_COLOR"
+  PYTHON_LATEST: "3.10"
+
+
+jobs:
+  tests:
+    name: "tox on ${{ matrix.python-version }}"
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "pypy-3.7"]
+
+    steps:
+      - uses: "actions/checkout@v2"
+        with:
+          submodules: "recursive"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "${{ matrix.python-version }}"
+      - name: "Install dependencies"
+        run: |
+          python -VV
+          python -m site
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade virtualenv tox tox-gh-actions
+
+      - name: "Run tox targets for ${{ matrix.python-version }}"
+        run: "python -m tox"
+
+
+  system-package:
+    runs-on: "ubuntu-latest"
+    name: "Install and test with system package of Argon2."
+
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: ${{env.PYTHON_LATEST}}
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get install libargon2-0 libargon2-0-dev
+          # Ensure we cannot use our own Argon2 by accident.
+          rm -rf extras
+          python -VV
+          python -m site
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade virtualenv tox
+
+      - run: "python -m tox -e system-argon2"
+
+
+  package:
+    name: "Build & verify package"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: "actions/checkout@v2"
+        with:
+          submodules: "recursive"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: ${{env.PYTHON_LATEST}}
+
+      - run: "python -m pip install build twine check-wheel-contents"
+      - run: "python -m build --sdist --wheel ."
+      - run: "ls -l dist"
+      - run: "check-wheel-contents dist/*.whl"
+      - name: "Check long_description"
+        run: "python -m twine check dist/*"
+
+
+  install-dev:
+    name: "Verify dev env"
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+
+    steps:
+      - uses: "actions/checkout@v2"
+        with:
+          submodules: "recursive"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: ${{env.PYTHON_LATEST}}
+      - run: python -m pip install --upgrade pip
+      - run: python setup.py build
+      - run: python -m pip install -e .[dev]
+      - name: "Import package"
+        run: "python -c 'from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)'"

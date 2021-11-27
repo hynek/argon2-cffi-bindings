@@ -1,0 +1,45 @@
+---
+name: Build Wheels
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+
+
+jobs:
+  wheels:
+    name: Building for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: arm64
+
+      - uses: pypa/cibuildwheel@v2.3.0
+        env:
+          # Only build CPython 3.6, because we have portable abi3 wheels.
+          # Windows arm64 is only available on 3.9 and later.
+          CIBW_BUILD: "cp36-* pp37-* pp38-* cp39-win_arm64"
+          CIBW_ARCHS_LINUX: "auto aarch64"
+          CIBW_ARCHS_MACOS: "auto"
+
+          # Unfortunately, Argon2 currently doesn't compile on Apple Silicon.
+          # CIBW_ARCHS_MACOS: auto universal2
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: wheelhouse/*.whl
+
+...

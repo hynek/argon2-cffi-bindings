@@ -1,0 +1,6 @@
+.tox
+*.egg-info
+*.so
+build
+dist
+__pycache__
