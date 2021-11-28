@@ -17,12 +17,14 @@ The currently vendored *Argon2* commit ID is [**`f57e61e`**](https://github.com/
 > Have a look at [*argon2-cffi*] with its high-level abstractions!
 
 These bindings have been extracted from [*argon2-cffi*] and it remains its main consumer.
-However, they may be used by other packages that want to use *Argon2* library without dealing with C-related complexities.
+However, they may be used by other packages that want to use the *Argon2* library without dealing with C-related complexities.
 
 
 ## Usage
 
+*argon2-cffi-bindings* is available from [PyPI](https://pypi.org/project/argon2-cffi-bindings/).
 The provided *CFFI* bindings are compiled in API mode.
+
 Best effort is given to provide binary wheels for as many platforms as possible.
 
 
@@ -34,6 +36,7 @@ A copy of [*Argon2*] is vendored and used by default, but can be disabled if *ar
 $ env ARGON2_CFFI_USE_SYSTEM=1 \
   python -m pip install --no-binary=argon2-cffi-bindings argon2-cffi-bindings
 ```
+
 
 ### Overriding Automatic SSE2 Detection
 
