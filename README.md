@@ -25,7 +25,8 @@ However, they may be used by other packages that want to use *Argon2* library wi
 The provided *CFFI* bindings are compiled in API mode.
 Best effort is given to provide binary wheels for as many platforms as possible.
 
----
+
+### Disabling Vendored Code
 
 A copy of [*Argon2*] is vendored and used by default, but can be disabled if *argon2-cffi-bindings* is installed using:
 
@@ -34,10 +35,22 @@ $ env ARGON2_CFFI_USE_SYSTEM=1 \
   python -m pip install --no-binary=argon2-cffi-bindings argon2-cffi-bindings
 ```
 
+### Overriding Automatic SSE2 Detection
+
+Usually the build process tries to guess whether or not it should use [*SSE2*](https://en.wikipedia.org/wiki/SSE2)-optimized code.
+This can go wrong and is problematic for cross-compiling.
+
+Therefore you can use the `ARGON2_CFFI_USE_SSE2` environment variable to control the process:
+
+- If you set it to ``1``, *argon2-cffi-bindings* will build **with** SSE2 support.
+- If you set it to ``0``, *argon2-cffi-bindings* will build **without** SSE2 support.
+- If you set it to anything else, it will be ignored and *argon2-cffi-bindings* will try to guess.
+
 
 ### Python API
 
-Since this package is intended to be an implementation detail, it uses a private module name.
+Since this package is intended to be an implementation detail, it uses a private module name to prevent your users from using it by accident.
+
 Therefore you have to import the symbols from `_argon2_cffi_bindings`:
 
 ```python
