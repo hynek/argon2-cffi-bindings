@@ -5,6 +5,8 @@ on:
   push:
     tags:
       - '*'
+  pull_request:  # XXX: remove when done
+    branches: ["main"]
   workflow_dispatch:
 
 
@@ -18,6 +20,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v2
+        fetch-depth: 0  # so we have proper version tags w/ setuptools_scm
         with:
           submodules: "recursive"
 
@@ -33,10 +36,7 @@ jobs:
           # Windows arm64 is only available on 3.9 and later.
           CIBW_BUILD: "cp36-* pp37-* pp38-* cp39-win_arm64"
           CIBW_ARCHS_LINUX: "auto aarch64"
-          CIBW_ARCHS_MACOS: "auto"
-
-          # Unfortunately, Argon2 currently doesn't compile on Apple Silicon.
-          # CIBW_ARCHS_MACOS: auto universal2
+          CIBW_ARCHS_MACOS: "auto universal2"
 
       - uses: actions/upload-artifact@v2
         with:
