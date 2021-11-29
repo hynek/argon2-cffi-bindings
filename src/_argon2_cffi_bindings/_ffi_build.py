@@ -17,9 +17,15 @@ if use_sse2 == "1":
 elif use_sse2 == "0":
     optimized = False
 else:
-    # Optimized version requires SSE2 extensions.  They have been around since
+    # Optimized version requires SSE2 extensions. They have been around since
     # 2001 so we try to compile it on every recent-ish x86.
-    optimized = platform.machine() in ("i686", "x86", "x86_64", "AMD64")
+    arch_flags = os.environ.get("ARCHFLAGS", "")
+    if arch_flags:
+        # cibuildwheel currently uses cross-compiling for arm64, so we have to
+        # detect it here.
+        optimized = "-arch arm64" not in arch_flags
+    else:
+        optimized = platform.machine() in ("i686", "x86", "x86_64", "AMD64")
 
 
 ffi = FFI()
