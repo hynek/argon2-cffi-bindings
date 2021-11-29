@@ -34,7 +34,7 @@ jobs:
         env:
           # Only build CPython 3.6, because we have portable abi3 wheels.
           # Windows arm64 is only available on 3.9 and later.
-          CIBW_BUILD: "cp36-* pp37-* pp38-* cp39-win_arm64"
+          CIBW_BUILD: "cp36-* pp37-* pp38-* cp39-win_arm64 cp38-macosx_arm64 cp38-macosx_universal2"
           CIBW_ARCHS_LINUX: "auto aarch64"
           CIBW_ARCHS_MACOS: "auto universal2"
 
