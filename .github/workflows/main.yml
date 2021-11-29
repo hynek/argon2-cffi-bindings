@@ -97,6 +97,7 @@ jobs:
       - uses: "actions/setup-python@v2"
         with:
           python-version: ${{env.PYTHON_LATEST}}
+      - run: find /usr/lib /usr/local/lib -name "*argon2*"
       - run: python -m pip install --upgrade pip
       - run: python setup.py build
       - run: python -m pip install -e .[dev]
