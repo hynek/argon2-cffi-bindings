@@ -7,6 +7,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased](https://github.com/hynek/argon2-cffi-bindings/compare/21.1.0...HEAD)
 
+### Changed
+
+- The compilation of the vendored *Argon2* C library is now left to *CFFI*.
+  This prevents the accidental usage of a system-wide *Argon2* installation.
+  [#1](https://github.com/hynek/argon2-cffi-bindings/pull/1)
+
 
 ## [21.1.0](https://github.com/hynek/argon2-cffi-bindings/releases/tag/21.1.0) – 2021-11-28
 

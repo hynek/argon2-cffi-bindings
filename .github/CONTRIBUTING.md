@@ -61,7 +61,6 @@ Now an editable version of *argon2-cffi-bindings* along with its test requiremen
 
 ```console
 $ python -m pip install --upgrade pip setuptools cffi  # PLEASE don't skip this step
-$ python setup.py build  # build the vendored C code
 $ python -m pip install -e '.[dev]'
 ```
 
@@ -72,6 +71,12 @@ $ python -m pytest
 ```
 
 should work and pass.
+
+---
+
+When working on `src/_argons_cffi_bindings/_ffi_build.py`, it makes sense to regularly delete the `build` directory along with the created binary in `src/_argons_cffi_bindings` (e.g. on macOS and Linux, it's called `_ffi.abi3.so`) to ensure it's built fresh.
+
+---
 
 To avoid committing code that violates our style guide, we strongly advise you to install [*pre-commit*] [^dev] hooks:
 
