@@ -80,6 +80,10 @@ jobs:
       - run: "check-wheel-contents dist/*.whl"
       - name: "Check long_description"
         run: "python -m twine check dist/*"
+      # Smoke-check the wheel against argon2-cffi.
+      - run: "python -m pip install dist/*.whl"
+      - run: "python -m pip install --no-deps git+https://github.com/hynek/argon2-cffi.git"
+      - run: "python -m argon2 -n 1 -t 1 -m 8 -p 1"
 
 
   install-dev:
