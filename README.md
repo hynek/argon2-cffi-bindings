@@ -1,4 +1,4 @@
-# Python CFFI Bindings for Argon2
+# Low-level Python CFFI Bindings for Argon2
 
 *argon2-cffi-bindings* provides low-level [*CFFI*](https://cffi.readthedocs.io/) bindings to the [*Argon2*] password hashing algorithm including a vendored version of them.
 
