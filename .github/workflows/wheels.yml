@@ -5,8 +5,6 @@ on:
   push:
     tags:
       - '*'
-  pull_request:  # XXX: remove when done
-    branches: ["main"]
   workflow_dispatch:
 
 
@@ -22,7 +20,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
-          fetch-depth: 0  # so we have proper version tags w/ setuptools_scm
 
       - name: Set up QEMU
         if: runner.os == 'Linux'
@@ -33,12 +30,14 @@ jobs:
       - uses: pypa/cibuildwheel@v2.3.0
         env:
           # Only build CPython 3.6, because we have portable abi3 wheels.
-          # Windows arm64 is only available on 3.9 and later.
-          CIBW_BUILD: "cp36-* pp37-* pp38-* cp39-win_arm64 cp38-macosx_arm64 cp38-macosx_universal2"
+          # Windows arm64 is only available on 3.9 and later, Apple Silicon on
+          # 3.8 and later.
+          CIBW_BUILD: "cp36-* pp37-* pp38-* cp39-win_arm64 cp38-macosx_universal2"
           CIBW_ARCHS_LINUX: "auto aarch64"
-          CIBW_ARCHS_MACOS: "auto arm64 universal2"
+          CIBW_ARCHS_MACOS: "auto universal2"
           CIBW_TEST_COMMAND: python -c "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"
-          CIBW_BEFORE_BUILD_MACOS: env
+          # Silence warning we can't do anything about.
+          CIBW_TEST_SKIP: "*-macosx_universal2:arm64"
 
       - uses: actions/upload-artifact@v2
         with:
