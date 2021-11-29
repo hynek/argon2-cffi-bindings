@@ -1,23 +1,55 @@
 # SPDX-License-Identifier: MIT
 
 import os
+import platform
+
+from pathlib import Path
 
 from cffi import FFI
 
 
-include_dirs = [os.path.join("extras", "libargon2", "include")]
 use_system_argon2 = os.environ.get("ARGON2_CFFI_USE_SYSTEM", "0") == "1"
-if use_system_argon2:
-    include_dirs = []
+use_sse2 = os.environ.get("ARGON2_CFFI_USE_SSE2", None)
+windows = platform.system() == "Windows"
+
+if use_sse2 == "1":
+    optimized = True
+elif use_sse2 == "0":
+    optimized = False
+else:
+    # Optimized version requires SSE2 extensions.  They have been around since
+    # 2001 so we try to compile it on every recent-ish x86.
+    optimized = platform.machine() in ("i686", "x86", "x86_64", "AMD64")
 
 
 ffi = FFI()
-ffi.set_source(
-    "_ffi",
-    "#include <argon2.h>",
-    include_dirs=include_dirs,
-    libraries=["argon2"],
-)
+
+if use_system_argon2:
+    ffi.set_source(
+        "_ffi",
+        "#include <argon2.h>",
+        libraries=["argon2"],
+    )
+else:
+    lib_base = Path("extras") / "libargon2" / "src"
+    ffi.set_source(
+        "_ffi",
+        "#include <argon2.h>",
+        extra_compile_args=["-msse2"] if (optimized and not windows) else None,
+        include_dirs=[os.path.join("extras", "libargon2", "include")],
+        sources=[
+            str(lib_base / path)
+            for path in [
+                "argon2.c",
+                Path("blake2") / "blake2b.c",
+                "core.c",
+                "encoding.c",
+                "opt.c" if optimized else "ref.c",
+                "thread.c",
+            ]
+        ],
+    )
+
 
 ffi.cdef(
     """\
