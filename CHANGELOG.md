@@ -7,6 +7,17 @@ The third digit is when we need to start branches for older releases (only for e
 
 ## [Unreleased](https://github.com/hynek/argon2-cffi-bindings/compare/21.1.0...HEAD)
 
+<!-- Extract commit ID; refresh using `tox -e cog`
+[[[cog
+import subprocess
+cp = subprocess.run(["git", "submodule"], capture_output=True)
+id = cp.stdout[1:].decode().split(" ", 1)[0]
+link = f'[**`{id[:7]}`**](https://github.com/P-H-C/phc-winner-argon2/commit/{id})'
+print(f"Vendoring *Argon2* @ {link}.")
+]]] -->
+Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/commit/f57e61e19229e23c4445b85494dbf7c07de721cb).
+<!-- [[[end]]] -->
+
 ### Changed
 
 - The compilation of the vendored *Argon2* C library is now left to *CFFI*.
