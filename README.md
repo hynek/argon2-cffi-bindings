@@ -49,6 +49,9 @@ Therefore you can use the `ARGON2_CFFI_USE_SSE2` environment variable to control
 - If you set it to ``0``, *argon2-cffi-bindings* will build **without** SSE2 support.
 - If you set it to anything else, it will be ignored and *argon2-cffi-bindings* will try to guess.
 
+Additionally, we use heuristics to determine whether *argon2-cffi-bindings* is being cross-compiled by [*cibuildwheel*](https://cibuildwheel.readthedocs.io/).
+See [`_ffi_build.py`](https://github.com/hynek/argon2-cffi-bindings/blob/main/src/_argon2_cffi_bindings/_ffi_build.py) for details.
+
 
 ### Python API
 

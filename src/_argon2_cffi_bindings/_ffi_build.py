@@ -19,8 +19,9 @@ elif use_sse2 == "0":
 else:
     # Optimized version requires SSE2 extensions. They have been around since
     # 2001 so we try to compile it on every recent-ish x86.
+    cibw = os.environ.get("CIBW_BUILD", "")
     arch_flags = os.environ.get("ARCHFLAGS", "")
-    if arch_flags:
+    if cibw and arch_flags:
         # cibuildwheel currently uses cross-compiling for arm64, so we have to
         # detect it here.
         optimized = "-arch arm64" not in arch_flags
