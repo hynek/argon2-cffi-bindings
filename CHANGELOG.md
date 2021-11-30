@@ -10,8 +10,8 @@ The third digit is when we need to start branches for older releases (only for e
 <!-- [[[cog
 # Extract commit ID; refresh using `tox -e cog`
 import subprocess
-cp = subprocess.run(["git", "submodule"], capture_output=True)
-id = cp.stdout[1:].decode().split(" ", 1)[0]
+out = subprocess.check_output(["git", "submodule"], text=True)
+id = out.strip().split(" ", 1)[0]
 link = f'[**`{id[:7]}`**](https://github.com/P-H-C/phc-winner-argon2/commit/{id})'
 print(f"Vendoring *Argon2* @ {link}.")
 ]]] -->
