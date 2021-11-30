@@ -38,7 +38,7 @@ $ env ARGON2_CFFI_USE_SYSTEM=1 \
 ```
 
 
-### Overriding Automatic SSE2 Detection
+### Overriding Automatic *SSE2* Detection
 
 Usually the build process tries to guess whether or not it should use [*SSE2*](https://en.wikipedia.org/wiki/SSE2)-optimized code.
 This can go wrong and is problematic for cross-compiling.
