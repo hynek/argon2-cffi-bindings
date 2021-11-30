@@ -7,8 +7,8 @@ The third digit is when we need to start branches for older releases (only for e
 
 ## [Unreleased](https://github.com/hynek/argon2-cffi-bindings/compare/21.1.0...HEAD)
 
-<!-- Extract commit ID; refresh using `tox -e cog`
-[[[cog
+<!-- [[[cog
+# Extract commit ID; refresh using `tox -e cog`
 import subprocess
 cp = subprocess.run(["git", "submodule"], capture_output=True)
 id = cp.stdout[1:].decode().split(" ", 1)[0]
