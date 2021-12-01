@@ -12,14 +12,33 @@ use_system_argon2 = os.environ.get("ARGON2_CFFI_USE_SYSTEM", "0") == "1"
 use_sse2 = os.environ.get("ARGON2_CFFI_USE_SSE2", None)
 windows = platform.system() == "Windows"
 
+
+# Try to detect cross-compilation.
+def _get_target_platform(arch_flags, default):
+    flags = [f for f in arch_flags.split(" ") if f.strip() != ""]
+    try:
+        pos = flags.index("-arch")
+
+        return flags[pos + 1].lower()
+    except ValueError:
+        pass
+
+    return default
+
+
+target_platform = _get_target_platform(
+    os.environ.get("ARCHFLAGS", ""), platform.machine()
+)
+
+
 if use_sse2 == "1":
     optimized = True
 elif use_sse2 == "0":
     optimized = False
 else:
-    # Optimized version requires SSE2 extensions.  They have been around since
+    # Optimized version requires SSE2 extensions. They have been around since
     # 2001 so we try to compile it on every recent-ish x86.
-    optimized = platform.machine() in ("i686", "x86", "x86_64", "AMD64")
+    optimized = target_platform in ("i686", "x86", "x86_64", "AMD64")
 
 
 ffi = FFI()

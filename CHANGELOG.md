@@ -18,6 +18,11 @@ print(f"Vendoring *Argon2* @ {link}.")
 Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/commit/f57e61e19229e23c4445b85494dbf7c07de721cb).
 <!-- [[[end]]] -->
 
+### Added
+
+- Native macOS wheels for Apple Silicon (`universal2`).
+  [#2](https://github.com/hynek/argon2-cffi-bindings/pull/2)
+
 ### Changed
 
 - The compilation of the vendored *Argon2* C library is now left to *CFFI*.

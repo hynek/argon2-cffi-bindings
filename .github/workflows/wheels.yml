@@ -1,5 +1,5 @@
 ---
-name: Build Wheels
+name: Wheels
 
 on:
   push:
@@ -15,7 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # macOS-11 has no Python 3.6.
+        os: [ubuntu-latest, windows-latest, macOS-10.15]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -30,17 +31,19 @@ jobs:
       - uses: pypa/cibuildwheel@v2.3.0
         env:
           # Only build CPython 3.6, because we have portable abi3 wheels.
-          # Windows arm64 is only available on 3.9 and later.
-          CIBW_BUILD: "cp36-* pp37-* pp38-* cp39-win_arm64"
+          # Windows arm64 is only available on 3.9 and later, Apple Silicon on
+          # 3.8 and later.
+          CIBW_BUILD: "cp36-* pp37-* pp38-* cp39-win_arm64 cp38-macosx_universal2"
           CIBW_ARCHS_LINUX: "auto aarch64"
-          CIBW_ARCHS_MACOS: "auto"
-
-          # Unfortunately, Argon2 currently doesn't compile on Apple Silicon.
-          # CIBW_ARCHS_MACOS: auto universal2
+          CIBW_ARCHS_MACOS: "auto universal2"
+          CIBW_TEST_COMMAND: python -c "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"
+          # Silence warning we can't do anything about.
+          CIBW_TEST_SKIP: "*-macosx_universal2:arm64"
 
       - uses: actions/upload-artifact@v2
         with:
           name: wheels
           path: wheelhouse/*.whl
+          if-no-files-found: error
 
 ...

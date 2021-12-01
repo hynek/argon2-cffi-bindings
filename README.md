@@ -40,7 +40,7 @@ $ env ARGON2_CFFI_USE_SYSTEM=1 \
 
 ### Overriding Automatic *SSE2* Detection
 
-Usually the build process tries to guess whether or not it should use [*SSE2*](https://en.wikipedia.org/wiki/SSE2)-optimized code.
+Usually the build process tries to guess whether or not it should use [*SSE2*](https://en.wikipedia.org/wiki/SSE2)-optimized code (see [`_ffi_build.py`](https://github.com/hynek/argon2-cffi-bindings/blob/main/src/_argon2_cffi_bindings/_ffi_build.py) for details).
 This can go wrong and is problematic for cross-compiling.
 
 Therefore you can use the `ARGON2_CFFI_USE_SSE2` environment variable to control the process:
@@ -48,6 +48,8 @@ Therefore you can use the `ARGON2_CFFI_USE_SSE2` environment variable to control
 - If you set it to ``1``, *argon2-cffi-bindings* will build **with** SSE2 support.
 - If you set it to ``0``, *argon2-cffi-bindings* will build **without** SSE2 support.
 - If you set it to anything else, it will be ignored and *argon2-cffi-bindings* will try to guess.
+
+However, if our heuristics fail you, we would welcome a bug report.
 
 
 ### Python API
