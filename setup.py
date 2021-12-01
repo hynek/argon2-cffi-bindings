@@ -29,6 +29,8 @@ EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["tests"] + [
 
 KEYWORDS = ["password", "hash", "hashing", "security", "bindings", "cffi"]
 PROJECT_URLS = {
+    "Changelog": "https://github.com/hynek/argon2-cffi-bindings/blob/main/"
+    "CHANGELOG.md",
     "Source Code": "https://github.com/hynek/argon2-cffi-bindings",
     "Funding": "https://github.com/sponsors/hynek",
     "Tidelift": "https://tidelift.com/subscription/pkg/pypi-argon2-cffi?"
