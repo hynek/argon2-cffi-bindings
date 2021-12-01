@@ -43,5 +43,6 @@ jobs:
         with:
           name: wheels
           path: wheelhouse/*.whl
+          if-no-files-found: error
 
 ...
