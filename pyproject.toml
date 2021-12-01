@@ -4,6 +4,8 @@ build-backend = "setuptools.build_meta"
 
 
 [tool.setuptools_scm]
+# Dev versions are PREVIOUS.post1.devXYZ
+version_scheme = "no-guess-dev"
 
 
 [tool.pytest.ini_options]
