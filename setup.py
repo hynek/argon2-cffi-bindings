@@ -76,7 +76,6 @@ if platform.python_implementation() == "CPython":
                 self.py_limited_api = f"cp3{sys.version_info[1]}"
                 wheel.bdist_wheel.bdist_wheel.finalize_options(self)
 
-
 else:
     BDistWheel = None
 
