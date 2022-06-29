@@ -17,17 +17,17 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: "recursive"
 
       - name: Set up QEMU
         if: runner.os == 'Linux'
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
         with:
           platforms: arm64
 
-      - uses: pypa/cibuildwheel@v2.3.0
+      - uses: pypa/cibuildwheel@v2.7.0
         env:
           # Only build CPython 3.6, because we have portable abi3 wheels.
           # Windows arm64 is only available on 3.9 and later, Apple Silicon on
@@ -39,7 +39,7 @@ jobs:
           # Silence warning we can't do anything about.
           CIBW_TEST_SKIP: "*-macosx_universal2:arm64"
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: wheels
           path: wheelhouse/*.whl
