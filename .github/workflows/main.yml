@@ -104,11 +104,8 @@ jobs:
           python-version: ${{env.PYTHON_LATEST}}
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -e .[dev]
-        if: runner.os != 'macOS'
-      - run: python -m pip install -e .[dev]
         env:
-          ARGON2_CFFI_USE_SSE2: 0
-        if: runner.os == 'macOS'
+          ARCHFLAGS: -arch x86_64
       - name: "Import package"
         run: "python -c 'from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)'"
       - run: "otool -L src/_argon2_cffi_bindings/_ffi.abi3.so"
