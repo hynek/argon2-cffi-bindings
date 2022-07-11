@@ -100,3 +100,12 @@ The string encoding routines in src/encoding.c are copyright (c) 2015 Thomas Por
 The [*BLAKE2*](https://www.blake2.net) code in ``src/blake2/`` is copyright (c) Samuel Neves, 2013-2015, and under [CC0] license.
 
 [CC0]: https://creativecommons.org/publicdomain/zero/1.0/
+
+
+### *argon2-cffi-bindings* for Enterprise
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of *argon2-cffi-bindings* and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open-source packages you use to build your applications.
+Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
+[Learn more.](https://tidelift.com/subscription/pkg/pypi-argon2-cffi-bindings?utm_source=undefined&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
