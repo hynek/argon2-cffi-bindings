@@ -9,7 +9,7 @@ version_scheme = "no-guess-dev"
 
 
 [tool.pytest.ini_options]
-addopts = "-ra --strict-markers --capture=no"
+addopts = ["-ra", "--strict-markers", "--strict-config", "--capture=no"]
 xfail_strict = true
 testpaths = "tests"
 filterwarnings = [

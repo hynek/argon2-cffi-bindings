@@ -1,6 +1,6 @@
 # Low-level Python CFFI Bindings for Argon2
 
-*argon2-cffi-bindings* provides low-level [*CFFI*](https://cffi.readthedocs.io/) bindings to the [*Argon2*] password hashing algorithm including a vendored version of them.
+*argon2-cffi-bindings* provides low-level [*CFFI*](https://cffi.readthedocs.io/) bindings to the official implementation of the [*Argon2*] password hashing algorithm.
 
 <!-- [[[cog
 # Extract commit ID; refresh using `tox -e cog`
@@ -13,6 +13,7 @@ print(f"The currently vendored *Argon2* commit ID is {link}.")
 The currently vendored *Argon2* commit ID is [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/commit/f57e61e19229e23c4445b85494dbf7c07de721cb).
 <!-- [[[end]]] -->
 
+> **Note**
 > If you want to hash passwords in an application, this package is **not** for you.
 > Have a look at [*argon2-cffi*] with its high-level abstractions!
 
@@ -72,9 +73,12 @@ The list of symbols that are provided can be found in the [`_ffi_build.py` file]
 
 ## Project Information
 
-*argon2-cffi-bindings* is available under the MIT license, available from [PyPI](https://pypi.org/project/argon2-cffi-bindings/), the source code and documentation can be found on [GitHub](https://github.com/hynek/argon2-cffi-bindings).
-
-*argon2-cffi-bindings* targets Python 3.6 and later, including PyPy3.
+- **License**: MIT
+- **PyPI**: <https://pypi.org/project/argon2-cffi-bindings/>
+- **Source Code**: <https://github.com/hynek/argon2-cffi-bindings>
+- **Documentation**:  <https://github.com/hynek/argon2-cffi-bindings#readme>
+- **Changelog**: <https://github.com/hynek/argon2-cffi-bindings/blob/main/CHANGELOG.md>
+- **Supported Python Versions**: 3.6 and later, including PyPy
 
 
 ### Credits & License
