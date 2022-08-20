@@ -71,9 +71,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions/setup-python@v4
-        with:
-          python-version: ${{env.PYTHON_LATEST}}
       - uses: hynek/build-and-inspect-python-package@v0.1
 
       # Smoke-check the wheel against argon2-cffi.
