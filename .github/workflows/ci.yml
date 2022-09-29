@@ -32,6 +32,11 @@ jobs:
           - "pypy-3.8"
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v1
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
       - uses: actions/checkout@v3
         with:
           submodules: recursive
@@ -52,6 +57,11 @@ jobs:
     name: Install and test with system package of Argon2.
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v1
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
@@ -73,6 +83,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v1
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
       - uses: actions/checkout@v3
         with:
           submodules: recursive
@@ -93,6 +108,11 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@v1
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
       - uses: actions/checkout@v3
         with:
           submodules: recursive
