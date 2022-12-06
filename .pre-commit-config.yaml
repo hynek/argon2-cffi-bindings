@@ -1,11 +1,9 @@
 ---
-
 ci:
   autoupdate_schedule: monthly
 
 default_language_version:
-  python: python3.10
-
+  python: python3.11
 
 repos:
   - repo: https://github.com/psf/black
@@ -19,6 +17,12 @@ repos:
     hooks:
       - id: isort
         additional_dependencies: [toml]
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.2.0
+    hooks:
+      - id: pyupgrade
+        args: [--py36-plus]
 
   - repo: https://github.com/asottile/yesqa
     rev: v1.4.0
@@ -39,3 +43,4 @@ repos:
       - id: end-of-file-fixer
       - id: debug-statements
       - id: check-toml
+      - id: check-yaml
