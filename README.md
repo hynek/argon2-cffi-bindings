@@ -1,6 +1,6 @@
 # Low-level Python CFFI Bindings for Argon2
 
-*argon2-cffi-bindings* provides low-level [*CFFI*](https://cffi.readthedocs.io/) bindings to the official implementation of the [Argon2] password hashing algorithm.
+*argon2-cffi-bindings* provides low-level [*cffi*](https://cffi.readthedocs.io/) bindings to the official implementation of the [Argon2] password hashing algorithm.
 
 <!-- [[[cog
 # Extract commit ID; refresh using `tox -e cog`
@@ -24,7 +24,7 @@ However, they may be used by other packages that want to use the Argon2 library 
 ## Usage
 
 *argon2-cffi-bindings* is available from [PyPI](https://pypi.org/project/argon2-cffi-bindings/).
-The provided *CFFI* bindings are compiled in API mode.
+The provided CFFI bindings are compiled in API mode.
 
 Best effort is given to provide binary wheels for as many platforms as possible.
 
@@ -39,9 +39,9 @@ $ env ARGON2_CFFI_USE_SYSTEM=1 \
 ```
 
 
-### Overriding Automatic *SSE2* Detection
+### Overriding Automatic SSE2 Detection
 
-Usually the build process tries to guess whether or not it should use [*SSE2*](https://en.wikipedia.org/wiki/SSE2)-optimized code (see [`_ffi_build.py`](https://github.com/hynek/argon2-cffi-bindings/blob/main/src/_argon2_cffi_bindings/_ffi_build.py) for details).
+Usually the build process tries to guess whether or not it should use [SSE2](https://en.wikipedia.org/wiki/SSE2)-optimized code (see [`_ffi_build.py`](https://github.com/hynek/argon2-cffi-bindings/blob/main/src/_argon2_cffi_bindings/_ffi_build.py) for details).
 This can go wrong and is problematic for cross-compiling.
 
 Therefore you can use the `ARGON2_CFFI_USE_SSE2` environment variable to control the process:
