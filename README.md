@@ -35,7 +35,7 @@ A copy of [*Argon2*] is vendored and used by default, but can be disabled if *ar
 
 ```console
 $ env ARGON2_CFFI_USE_SYSTEM=1 \
-  python -m pip install --no-binary=argon2-cffi-bindings argon2-cffi-bindings
+  python -Im pip install --no-binary=argon2-cffi-bindings argon2-cffi-bindings
 ```
 
 
@@ -73,11 +73,11 @@ The list of symbols that are provided can be found in the [`_ffi_build.py` file]
 
 ## Project Information
 
-- **License**: MIT
-- **PyPI**: <https://pypi.org/project/argon2-cffi-bindings/>
-- **Source Code**: <https://github.com/hynek/argon2-cffi-bindings>
-- **Documentation**:  <https://github.com/hynek/argon2-cffi-bindings#readme>
-- **Changelog**: <https://github.com/hynek/argon2-cffi-bindings/blob/main/CHANGELOG.md>
+- [**Changelog**](https://github.com/hynek/argon2-cffi-bindings/blob/main/CHANGELOG.md)
+- [**Documentation**](https://github.com/hynek/argon2-cffi-bindings#readme)
+- [**PyPI**](https://pypi.org/project/argon2-cffi-bindings/)
+- [**Source Code**](https://github.com/hynek/argon2-cffi-bindings)
+- **License**: [MIT](https://github.com/hynek/argon2-cffi-bindings/blob/main/LICENSE)
 - **Supported Python Versions**: 3.7 and later, including PyPy
 
 
