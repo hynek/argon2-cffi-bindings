@@ -22,7 +22,7 @@ permissions:
 jobs:
   tests:
     name: Tests on ${{ matrix.python-version }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04  # needed for 3.6
     strategy:
       fail-fast: false
       matrix:
@@ -51,7 +51,7 @@ jobs:
         run: |
           V=${{ matrix.python-version }}
           if [[ "$V" = pypy-* ]]; then
-            V=pypy3
+            V=$(echo $V | tr -d .-)
           else
             V=py$(echo $V | tr -d .)
           fi
@@ -112,7 +112,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{env.PYTHON_LATEST}}
-      - run: python -Im pip install --upgrade pip
       - run: python -Im pip install -e .[dev]
         env:
           ARCHFLAGS: -arch x86_64
