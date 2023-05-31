@@ -21,13 +21,12 @@ permissions:
 
 jobs:
   tests:
-    name: tox on ${{ matrix.python-version }}
-    runs-on: ubuntu-20.04
+    name: Tests on ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         python-version:
-          - "3.6"
           - "3.7"
           - "3.8"
           - "3.9"
@@ -38,17 +37,6 @@ jobs:
           - "pypy-3.8"
 
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            files.pythonhosted.org:443
-            github.com:443
-            objects.githubusercontent.com:443
-            pypi.org:443
-
       - uses: actions/checkout@v3
         with:
           submodules: recursive
@@ -56,26 +44,26 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
-      - run: python -Im pip install --upgrade wheel tox tox-gh-actions
+      - run: python -Im pip install --upgrade wheel tox
 
-      - run: python -Im tox
+      - name: Determine Python version for tox
+        run: |
+          V=${{ matrix.python-version }}
+          if [[ "$V" = pypy-* ]]; then
+            V=$(echo $V | tr -d .-)
+          else
+            V=py$(echo $V | tr -d .)
+          fi
+
+          echo TOX_PYTHON=$V >>$GITHUB_ENV
+
+      - run: python -Im tox run -f ${{ env.TOX_PYTHON }}
 
   system-package:
     runs-on: ubuntu-latest
     name: Install and test with system package of Argon2.
 
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: block
-          allowed-endpoints: >
-            azure.archive.ubuntu.com:80
-            azure.archive.ubuntu.com:443
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
-
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
@@ -93,15 +81,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
-
       - uses: actions/checkout@v3
         with:
           submodules: recursive
@@ -126,22 +105,12 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
-
       - uses: actions/checkout@v3
         with:
           submodules: recursive
       - uses: actions/setup-python@v4
         with:
           python-version: ${{env.PYTHON_LATEST}}
-      - run: python -Im pip install --upgrade pip
       - run: python -Im pip install -e .[dev]
         env:
           ARCHFLAGS: -arch x86_64
@@ -151,3 +120,38 @@ jobs:
         if: startsWith(matrix.os , 'macos')
       - run: ldd src/_argon2_cffi_bindings/_ffi.abi3.so
         if: startsWith(matrix.os , 'ubuntu')
+
+  cog-check:
+    name: Ensure cogified files are up-to-date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - run: python -Im pip install --upgrade wheel tox
+
+      - run: python -Im tox -e cogCheck
+
+
+  # Ensure everything required is passing for branch protection.
+  required-checks-pass:
+    if: always()
+
+    needs:
+      - tests
+      - install-dev
+      - package
+      - system-package
+      - cog-check
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
