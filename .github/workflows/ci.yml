@@ -121,6 +121,21 @@ jobs:
       - run: ldd src/_argon2_cffi_bindings/_ffi.abi3.so
         if: startsWith(matrix.os , 'ubuntu')
 
+  cog-check:
+    name: Ensure cogified files are up-to-date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - run: python -Im pip install --upgrade wheel tox
+
+      - run: python -Im tox -e cogCheck
+
 
   # Ensure everything required is passing for branch protection.
   required-checks-pass:
@@ -131,6 +146,7 @@ jobs:
       - install-dev
       - package
       - system-package
+      - cog-check
 
     runs-on: ubuntu-latest
 
