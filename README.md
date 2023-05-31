@@ -78,7 +78,7 @@ The list of symbols that are provided can be found in the [`_ffi_build.py` file]
 - **Source Code**: <https://github.com/hynek/argon2-cffi-bindings>
 - **Documentation**:  <https://github.com/hynek/argon2-cffi-bindings#readme>
 - **Changelog**: <https://github.com/hynek/argon2-cffi-bindings/blob/main/CHANGELOG.md>
-- **Supported Python Versions**: 3.6 and later, including PyPy
+- **Supported Python Versions**: 3.7 and later, including PyPy
 
 
 ### Credits & License
