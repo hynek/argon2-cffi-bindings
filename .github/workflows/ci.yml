@@ -22,7 +22,7 @@ permissions:
 jobs:
   tests:
     name: tox on ${{ matrix.python-version }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -38,17 +38,6 @@ jobs:
           - "pypy-3.8"
 
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: block
-          allowed-endpoints: >
-            api.github.com:443
-            files.pythonhosted.org:443
-            github.com:443
-            objects.githubusercontent.com:443
-            pypi.org:443
-
       - uses: actions/checkout@v3
         with:
           submodules: recursive
@@ -56,26 +45,26 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
-      - run: python -Im pip install --upgrade wheel tox tox-gh-actions
+      - run: python -Im pip install --upgrade wheel tox
 
-      - run: python -Im tox
+      - name: Determine Python version for tox
+        run: |
+          V=${{ matrix.python-version }}
+          if [[ "$V" = pypy-* ]]; then
+            V=pypy3
+          else
+            V=py$(echo $V | tr -d .)
+          fi
+
+          echo TOX_PYTHON=$V >>$GITHUB_ENV
+
+      - run: python -Im tox run -f ${{ env.TOX_PYTHON }}
 
   system-package:
     runs-on: ubuntu-latest
     name: Install and test with system package of Argon2.
 
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: block
-          allowed-endpoints: >
-            azure.archive.ubuntu.com:80
-            azure.archive.ubuntu.com:443
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
-
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
@@ -93,15 +82,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
-
       - uses: actions/checkout@v3
         with:
           submodules: recursive
@@ -126,15 +106,6 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: block
-          allowed-endpoints: >
-            files.pythonhosted.org:443
-            github.com:443
-            pypi.org:443
-
       - uses: actions/checkout@v3
         with:
           submodules: recursive
