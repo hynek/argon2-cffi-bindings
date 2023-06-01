@@ -134,7 +134,7 @@ jobs:
 
       - run: python -Im pip install --upgrade wheel tox
 
-      - run: python -Im tox -e cogCheck
+      - run: python -Im tox -e cog-check
 
 
   # Ensure everything required is passing for branch protection.
