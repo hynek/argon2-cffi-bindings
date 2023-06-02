@@ -14,7 +14,8 @@ env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
   PIP_NO_PYTHON_VERSION_WARNING: 1
   SETUPTOOLS_SCM_PRETEND_VERSION: "1.0" # avoid warnings about shallow checkout
-  PYTHON_LATEST: "3.10"
+  # N.B. default Python version for setup-python comes from the .python-version
+  # file at the root of the project.
 
 permissions:
   contents: read
@@ -66,8 +67,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
-        with:
-          python-version: ${{env.PYTHON_LATEST}}
       - name: Install dependencies
         run: |
           sudo apt-get install libargon2-0 libargon2-0-dev
@@ -109,8 +108,6 @@ jobs:
         with:
           submodules: recursive
       - uses: actions/setup-python@v4
-        with:
-          python-version: ${{env.PYTHON_LATEST}}
       - run: python -Im pip install -e .[dev]
         env:
           ARCHFLAGS: -arch x86_64

@@ -30,10 +30,15 @@ Please report any harm to [Hynek Schlawack] in any way you find appropriate.
 
 You can (and should) run our test suite using [*tox*].
 However, you’ll probably want a more traditional environment as well.
-We highly recommend to develop using the latest Python release because we try to take advantage of modern features whenever possible.
 
-First create a [virtual environment](https://virtualenv.pypa.io/) so you don't break your system-wide Python installation.
-It’s out of scope for this document to list all the ways to manage virtual environments in Python, but if you don’t already have a pet way, take some time to look at tools like [*direnv*](https://hynek.me/til/python-project-local-venvs/), [*virtualfish*](https://virtualfish.readthedocs.io/), and [*virtualenvwrapper*](https://virtualenvwrapper.readthedocs.io/).
+First, create a [virtual environment](https://virtualenv.pypa.io/) so you don't break your system-wide Python installation.
+We recommend using the Python version from the `.python-version` file in project's root directory.
+
+If you're using [*direnv*](https://direnv.net), you can automate the creation of a virtual environment with the correct Python version by adding the following `.envrc` to the project root:
+
+```bash
+layout python python$(cat .python-version)
+```
 
 Next, get an up to date checkout of the *argon2-cffi-bindings* repository:
 
@@ -78,7 +83,7 @@ When working on `src/_argons_cffi_bindings/_ffi_build.py`, it makes sense to reg
 
 ---
 
-To avoid committing code that violates our style guide, we strongly advise you to install [*pre-commit*] [^dev] hooks:
+To avoid committing code that violates our style guide, we strongly encourage you to install [*pre-commit*] [^dev] hooks:
 
 ```console
 $ pre-commit install
