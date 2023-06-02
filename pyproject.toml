@@ -51,9 +51,6 @@ Tidelift = "https://tidelift.com/subscription/pkg/pypi-argon2-cffi?utm_source=py
 "Funding" = "https://github.com/sponsors/hynek"
 
 
-[tool.setuptools]
-zip-safe = false
-
 [tool.setuptools.packages.find]
 where = ["src"]
 

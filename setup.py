@@ -31,6 +31,7 @@ if __name__ == "__main__":
         # Ensure limited API is set on CPython
         cmdclass=cmdclass,
         # CFFI
+        zip_safe=False,
         ext_package="_argon2_cffi_bindings",
         cffi_modules=["src/_argon2_cffi_bindings/_ffi_build.py:ffi"],
     )
