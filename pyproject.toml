@@ -1,6 +1,58 @@
 [build-system]
-requires = ["setuptools>=45",  "setuptools_scm>=6.2", "wheel", "cffi>=1.0.1"]
+requires = ["setuptools>=45", "setuptools_scm>=6.2", "wheel", "cffi>=1.0.1"]
 build-backend = "setuptools.build_meta"
+
+
+[project]
+dynamic = ["version"]
+name = "argon2-cffi-bindings"
+description = "Low-level CFFI bindings for Argon2"
+readme = { content-type = "text/markdown", file = "README.md" }
+authors = [{ name = "Hynek Schlawack", email = "hs@ox.cx" }]
+requires-python = ">=3.7"
+license = { text = "MIT" }
+keywords = ["password", "hash", "hashing", "security", "bindings", "cffi"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = ["cffi>=1.0.1"]
+
+[project.optional-dependencies]
+tests = ["pytest"]
+dev = ["argon2-cffi-bindings[tests]", "cogapp", "pre-commit", "wheel"]
+
+[project.urls]
+Tidelift = "https://tidelift.com/subscription/pkg/pypi-argon2-cffi?utm_source=pypi-argon2-cffi&utm_medium=pypi"
+"Changelog" = "https://github.com/hynek/argon2-cffi-bindings/blob/main/CHANGELOG.md"
+"Source Code" = "https://github.com/hynek/argon2-cffi-bindings"
+"Funding" = "https://github.com/sponsors/hynek"
+
+
+[tool.setuptools]
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 
 [tool.setuptools_scm]
@@ -12,9 +64,7 @@ version_scheme = "no-guess-dev"
 addopts = ["-ra", "--strict-markers", "--strict-config", "--capture=no"]
 xfail_strict = true
 testpaths = "tests"
-filterwarnings = [
-    "once::Warning",
-]
+filterwarnings = ["once::Warning"]
 
 
 [tool.black]
