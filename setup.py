@@ -30,8 +30,6 @@ if __name__ == "__main__":
     setup(
         # Ensure limited API is set on CPython
         cmdclass=cmdclass,
-        # setuptools_scm
-        use_scm_version=True,
         # CFFI
         ext_package="_argon2_cffi_bindings",
         cffi_modules=["src/_argon2_cffi_bindings/_ffi_build.py:ffi"],

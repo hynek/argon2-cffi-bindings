@@ -1,5 +1,10 @@
 [build-system]
-requires = ["setuptools>=45", "setuptools_scm>=6.2", "wheel", "cffi>=1.0.1"]
+requires = [
+    "setuptools>=45",
+    "setuptools_scm[toml]>=6.2",
+    "wheel",
+    "cffi>=1.0.1",
+]
 build-backend = "setuptools.build_meta"
 
 
@@ -21,7 +26,6 @@ classifiers = [
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
     "Operating System :: Unix",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -30,7 +34,6 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
-    "Programming Language :: Python",
     "Topic :: Security :: Cryptography",
     "Topic :: Security",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -56,8 +59,8 @@ where = ["src"]
 
 
 [tool.setuptools_scm]
-# Dev versions are PREVIOUS.post1.devXYZ
-version_scheme = "no-guess-dev"
+# Dev versions are PREVIOUS.devN with N being the # of commits since PREVIOUS.
+local_scheme = "no-local-version"
 
 
 [tool.pytest.ini_options]
