@@ -29,10 +29,10 @@ jobs:
 
       - uses: pypa/cibuildwheel@v2.13.0
         env:
-          # Only build CPython 3.6, because we have portable abi3 wheels.
+          # Only build CPython 3.7, because we have portable abi3 wheels.
           # Windows arm64 is only available on 3.9 and later, Apple Silicon on
           # 3.8 and later.
-          CIBW_BUILD: "cp36-* pp37-* pp38-* cp39-win_arm64 cp38-macosx_universal2"
+          CIBW_BUILD: "cp37-* pp37-* pp38-* cp39-win_arm64 cp38-macosx_universal2"
           CIBW_ARCHS_LINUX: "auto aarch64"
           CIBW_ARCHS_MACOS: "auto universal2"
           CIBW_TEST_COMMAND: python -c "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"
