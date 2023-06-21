@@ -3,7 +3,7 @@
 *argon2-cffi-bindings* provides low-level [CFFI](https://cffi.readthedocs.io/) bindings to the official implementation of the [Argon2] password hashing algorithm.
 
 <!-- [[[cog
-# Extract commit ID; refresh using `tox -e cog`
+# Extract commit ID; refresh using `tox -e cog-render`
 import subprocess
 out = subprocess.check_output(["git", "submodule"], text=True)
 id = out.strip().split(" ", 1)[0]
