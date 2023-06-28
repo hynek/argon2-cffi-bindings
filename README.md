@@ -1,5 +1,7 @@
 # Low-level Python CFFI Bindings for Argon2
 
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/argon2-cffi-bindings.svg)](https://pypi.org/project/argon2-cffi-bindings)
+
 *argon2-cffi-bindings* provides low-level [CFFI](https://cffi.readthedocs.io/) bindings to the official implementation of the [Argon2] password hashing algorithm.
 
 <!-- [[[cog
@@ -77,8 +79,6 @@ The list of symbols that are provided can be found in the [`_ffi_build.py` file]
 - [**Documentation**](https://github.com/hynek/argon2-cffi-bindings#readme)
 - [**PyPI**](https://pypi.org/project/argon2-cffi-bindings/)
 - [**Source Code**](https://github.com/hynek/argon2-cffi-bindings)
-- **License**: [MIT](https://github.com/hynek/argon2-cffi-bindings/blob/main/LICENSE)
-- **Supported Python Versions**: 3.7 and later, including PyPy
 
 
 ### Credits & License
