@@ -7,7 +7,7 @@ default_language_version:
 
 repos:
   - repo: https://github.com/psf/black
-    rev: 23.7.0
+    rev: 23.9.1
     hooks:
       - id: black
         language_version: python3.10
@@ -19,7 +19,7 @@ repos:
         additional_dependencies: [toml]
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.10.1
+    rev: v3.13.0
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
