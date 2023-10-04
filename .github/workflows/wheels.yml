@@ -6,6 +6,8 @@ on:
     tags:
       - '*'
   workflow_dispatch:
+  schedule:
+    - cron: "30 4 15 * *"
 
 
 jobs:
