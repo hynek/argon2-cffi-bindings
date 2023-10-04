@@ -21,7 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: "recursive"
+          submodules: recursive
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Set up QEMU
         if: runner.os == 'Linux'
