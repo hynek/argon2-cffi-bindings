@@ -43,7 +43,7 @@ jobs:
           # Silence warning we can't do anything about.
           CIBW_TEST_SKIP: "*-macosx_universal2:arm64"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: wheels
           path: wheelhouse/*.whl
