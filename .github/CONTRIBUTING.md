@@ -32,24 +32,28 @@ You can (and should) run our test suite using [*tox*].
 However, you’ll probably want a more traditional environment as well.
 
 First, create a [virtual environment](https://virtualenv.pypa.io/) so you don't break your system-wide Python installation.
-We recommend using the Python version from the `.python-version` file in project's root directory.
+We recommend using the Python version from the `.python-version-default` file in project's root directory.
 
-If you're using [*direnv*](https://direnv.net), you can automate the creation of a virtual environment with the correct Python version by adding the following `.envrc` to the project root:
+If you're using [*direnv*](https://direnv.net), you can automate the creation of a virtual environment with the correct Python version by adding the following `.envrc` to the project root after you've cloned it to your computer:
 
 ```bash
-layout python python$(cat .python-version)
+layout python python$(cat .python-version-default)
 ```
 
-Next, get an up to date checkout of the *argon2-cffi-bindings* repository:
+If you're using tools that understand `.python-version` files like [*pyenv*](https://github.com/pyenv/pyenv) does, you can make it a link to the `.python-version-default` file.
+
+---
+
+Next, fork the repository on GitHub and get an up-to-date checkout:
 
 ```console
-$ git clone git@github.com:hynek/argon2-cffi-bindings.git
+$ git clone git@github.com:<your-username>/argon2-cffi-bindings.git
 ```
 
 or if you want to use git via `https`:
 
 ```console
-$ git clone https://github.com/hynek/argon2-cffi-bindings.git
+$ git clone https://github.com/<your-username>/argon2-cffi-bindings.git
 ```
 
 Change into the newly created directory and **activate your virtual environment**
@@ -65,8 +69,8 @@ $ git submodule update   # update the vendored Argon2 C library to the version w
 Now an editable version of *argon2-cffi-bindings* along with its test requirements can be installed as usual:
 
 ```console
-$ python -m pip install --upgrade pip setuptools cffi  # PLEASE don't skip this step
-$ python -m pip install -e '.[dev]'
+$ python -Im pip install --upgrade pip setuptools cffi  # PLEASE don't skip this step
+$ python -Im pip install -e '.[dev]'
 ```
 
 At this point,
