@@ -17,7 +17,7 @@ print(f"The currently vendored Argon2 commit ID is {link}.")
 The currently vendored Argon2 commit ID is [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/commit/f57e61e19229e23c4445b85494dbf7c07de721cb).
 <!-- [[[end]]] -->
 
-> **Note**
+> [!NOTE]
 > If you want to hash passwords in an application, this package is **not** for you.
 > Have a look at [*argon2-cffi*] with its high-level abstractions!
 
