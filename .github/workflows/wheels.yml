@@ -36,7 +36,7 @@ jobs:
         with:
           platforms: arm64
 
-      - uses: pypa/cibuildwheel@v2.16.5
+      - uses: pypa/cibuildwheel@v2.17.0
         env:
           # Only build CPython 3.7, because we have portable abi3 wheels.
           # Windows arm64 is only available on 3.9 and later, Apple Silicon on
