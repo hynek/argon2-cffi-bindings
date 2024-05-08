@@ -113,8 +113,6 @@ jobs:
           cache: pip
           python-version-file: .python-version-default
       - run: python -Im pip install -e .[dev]
-        env:
-          ARCHFLAGS: -arch x86_64
       - name: Import package
         run: python -c 'from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)'
       - run: otool -L src/_argon2_cffi_bindings/_ffi.abi3.so
