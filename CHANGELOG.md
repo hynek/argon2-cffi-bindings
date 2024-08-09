@@ -22,13 +22,15 @@ Vendoring Argon2 @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/co
 
 ### Added
 
-- Official Python 3.12 support.
+- Official Python 3.12 and 3.13 support.
   No code or packaging changes were necessary.
 
 
 ### Removed
 
-- Python 3.6 support.
+- Python 3.6, 3.7, and 3.8 support.
+  There is very little activity on the bindings repo, so it doesn't make sense to carry around the build complexity of those ancient Python versions.
+  The [21.2.0 wheels on PyPI](https://pypi.org/project/argon2-cffi-bindings/21.2.0/) include support for Python 3.6 and are based on the same Argon2 version.
 
 
 ## [21.2.0](https://github.com/hynek/argon2-cffi-bindings/compare/21.1.0...21.2.0) - 2021-12-01
