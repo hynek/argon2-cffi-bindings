@@ -51,7 +51,7 @@ if use_system_argon2:
         "_ffi",
         "#include <argon2.h>",
         libraries=["argon2"],
-        limited_api=limited_api,
+        py_limited_api=limited_api,
     )
 else:
     lib_base = Path("extras") / "libargon2" / "src"
@@ -60,7 +60,7 @@ else:
         "#include <argon2.h>",
         extra_compile_args=["-msse2"] if (optimized and not windows) else None,
         include_dirs=[os.path.join("extras", "libargon2", "include")],
-        limited_api=limited_api,
+        py_limited_api=limited_api,
         sources=[
             str(lib_base / path)
             for path in [
