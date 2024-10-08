@@ -2,6 +2,7 @@
 
 import os
 import platform
+import sysconfig
 
 from pathlib import Path
 
@@ -11,6 +12,8 @@ from cffi import FFI
 use_system_argon2 = os.environ.get("ARGON2_CFFI_USE_SYSTEM", "0") == "1"
 use_sse2 = os.environ.get("ARGON2_CFFI_USE_SSE2", None)
 windows = platform.system() == "Windows"
+# Free-threaded CPython doesn't support limited API.
+limited_api = not sysconfig.get_config_var("Py_GIL_DISABLED")
 
 
 # Try to detect cross-compilation.
@@ -48,6 +51,7 @@ if use_system_argon2:
         "_ffi",
         "#include <argon2.h>",
         libraries=["argon2"],
+        limited_api=limited_api,
     )
 else:
     lib_base = Path("extras") / "libargon2" / "src"
@@ -56,6 +60,7 @@ else:
         "#include <argon2.h>",
         extra_compile_args=["-msse2"] if (optimized and not windows) else None,
         include_dirs=[os.path.join("extras", "libargon2", "include")],
+        limited_api=limited_api,
         sources=[
             str(lib_base / path)
             for path in [

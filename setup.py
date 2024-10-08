@@ -2,6 +2,7 @@
 
 import platform
 import sys
+import sysconfig
 
 from setuptools import setup
 
@@ -14,7 +15,12 @@ if platform.python_implementation() == "CPython":
 
         class BDistWheel(wheel.bdist_wheel.bdist_wheel):
             def finalize_options(self):
-                self.py_limited_api = f"cp3{sys.version_info[1]}"
+                # Free-threaded CPython doesn't support limited API.
+                if sysconfig.get_config_var("Py_GIL_DISABLED"):
+                    self.py_limited_api = False
+                else:
+                    self.py_limited_api = f"cp3{sys.version_info[1]}"
+
                 wheel.bdist_wheel.bdist_wheel.finalize_options(self)
 
         cmdclass["bdist_wheel"] = BDistWheel
