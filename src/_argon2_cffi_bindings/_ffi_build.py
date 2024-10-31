@@ -55,7 +55,7 @@ else:
         "_ffi",
         "#include <argon2.h>",
         extra_compile_args=["-msse2"] if (optimized and not windows) else None,
-        include_dirs=[os.path.join("extras", "libargon2", "include")],
+        include_dirs=[str(Path("extras", "libargon2", "include"))],
         sources=[
             str(lib_base / path)
             for path in [

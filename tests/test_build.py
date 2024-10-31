@@ -4,7 +4,7 @@ from _argon2_cffi_bindings._ffi_build import _get_target_platform
 
 
 @pytest.mark.parametrize(
-    "arch_flags, expected",
+    ("arch_flags", "expected"),
     [
         (" -arch arm64", "arm64"),
         ("abc -arch  arm64  xyz", "arm64"),
