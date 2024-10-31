@@ -66,16 +66,54 @@ testpaths = "tests"
 filterwarnings = ["once::Warning"]
 
 
-[tool.black]
-line-length = 79
-
-
-[tool.isort]
-profile = "attrs"
-
-
 [tool.interrogate]
 omit-covered-files = true
 verbose = 2
 fail-under = 100
 whitelist-regex = ["test_.*"]
+
+
+[tool.ruff]
+src = ["src", "tests"]
+line-length = 79
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "A001",    # shadowing is fine
+    "A002",    # shadowing is fine
+    "A003",    # shadowing is fine
+    "ANN",     # Mypy is better at this
+    "ARG001",  # unused arguments are normal when implementing interfaces
+    "COM",     # Formatter takes care of our commas
+    "D",       # We prefer our own docstring style.
+    "E501",    # leave line-length enforcement to formatter
+    "ERA001",  # Dead code detection is overly eager.
+    "FBT",     # we have one function that takes one bool; c'mon!
+    "FIX",     # Yes, we want XXX as a marker.
+    "INP001",  # sometimes we want Python files outside of packages
+    "ISC001",  # conflicts with ruff format
+    "PLR0913", # yes, many arguments, but most have defaults
+    "PLR2004", # numbers are sometimes fine
+    "PLW2901", # re-assigning within loop bodies is fine
+    "RUF001",  # leave my smart characters alone
+    "SLF001",  # private members are accessed by friendly functions
+    "TCH",     # TYPE_CHECKING blocks break autodocs
+    "TD",      # we don't follow other people's todo style
+]
+
+[tool.ruff.lint.per-file-ignores]
+"src/argon2/__main__.py" = ["T201"] # need print in CLI
+"tests/*" = [
+    "ARG",    # stubs don't care about arguments
+    "S101",   # assert
+    "SIM300", # Yoda rocks in asserts
+    "PT005",  # we always add underscores and explicit name
+    "PT011",  # broad is fine
+    "TRY002", # stock exceptions are fine in tests
+    "EM101",  # no need for exception msg hygiene in tests
+]
+
+[tool.ruff.lint.isort]
+lines-between-types = 1
+lines-after-imports = 2
