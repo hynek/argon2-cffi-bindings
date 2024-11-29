@@ -72,7 +72,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get install libargon2-0 libargon2-0-dev
+          sudo apt-get install libargon2-1 libargon2-dev
           # Ensure we cannot use our own Argon2 by accident.
           rm -rf extras
       - run: python -Im pip install tox
@@ -117,7 +117,6 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@v5
         with:
-          cache: pip
           python-version-file: .python-version-default
       - run: python -Im pip install -e .[dev]
 
