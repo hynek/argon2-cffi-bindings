@@ -22,7 +22,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, windows-2019, macOS-13, macOS-14]
+        # macOS-13 is Intel, macOS-14 is ARM
+        os: [ubuntu-20.04, ubuntu-22.04-arm, windows-2019, macOS-13, macOS-14]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,9 +41,8 @@ jobs:
       - uses: pypa/cibuildwheel@v2.23
         env:
           # Only build CPython 3.9, because we have portable abi3 wheels.
-          # Only exception are free-threaded builds.
           CIBW_BUILD: "cp39-* cp39-win_arm64 cp313t-*"
-          CIBW_ARCHS_LINUX: "auto aarch64"
+          CIBW_ARCHS_LINUX: "auto"
           CIBW_ARCHS_MACOS: "auto universal2"
           CIBW_TEST_COMMAND: python -Ic "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"
           # https://github.com/pypa/cibuildwheel/pull/1169
