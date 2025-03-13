@@ -41,7 +41,7 @@ jobs:
       - uses: pypa/cibuildwheel@v2.23
         env:
           # Only build CPython 3.9, because we have portable abi3 wheels.
-          CIBW_BUILD: "cp313-win_arm64 cp39-*"
+          CIBW_BUILD: "cp39-*"
           CIBW_ARCHS_WINDOWS: "auto ARM64"
           CIBW_ARCHS_LINUX: "auto"
           CIBW_ARCHS_MACOS: "auto universal2"
