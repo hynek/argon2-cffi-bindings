@@ -14,7 +14,7 @@ windows = platform.system() == "Windows"
 
 
 # Try to detect cross-compilation.
-def _get_target_platform(arch_flags, default, vscmd_target_arch = ""):
+def _get_target_platform(arch_flags, default, vscmd_target_arch=""):
     if vscmd_target_arch != "":
         return vscmd_target_arch
     flags = [f for f in arch_flags.split(" ") if f.strip() != ""]
@@ -29,7 +29,9 @@ def _get_target_platform(arch_flags, default, vscmd_target_arch = ""):
 
 
 target_platform = _get_target_platform(
-    os.environ.get("ARCHFLAGS", ""), platform.machine(), os.environ.get("VSCMD_ARG_TGT_ARCH", "")
+    os.environ.get("ARCHFLAGS", ""),
+    platform.machine(),
+    os.environ.get("VSCMD_ARG_TGT_ARCH", ""),
 )
 
 
