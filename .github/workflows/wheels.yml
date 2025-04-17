@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         # macOS-13 is Intel, macOS-14 is ARM
-        os: [ubuntu-20.04, ubuntu-22.04-arm, windows-2019, macOS-13, macOS-14]
+        os: [ubuntu-22.04, ubuntu-22.04-arm, windows-2019, macOS-13, macOS-14]
     steps:
       - uses: actions/checkout@v4
         with:
