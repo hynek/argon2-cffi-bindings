@@ -22,7 +22,7 @@ Vendoring Argon2 @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/co
 
 ### Added
 
-- Official Python 3.12 and 3.13 support.
+- Official Python 3.12, 3.13, and 3.14 support.
   No code or packaging changes were necessary.
 
 
@@ -34,7 +34,6 @@ Vendoring Argon2 @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/co
 
 
 ## [21.2.0](https://github.com/hynek/argon2-cffi-bindings/compare/21.1.0...21.2.0) - 2021-12-01
-
 
 Vendoring Argon2 @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/commit/f57e61e19229e23c4445b85494dbf7c07de721cb).
 
