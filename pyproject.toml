@@ -60,13 +60,14 @@ local_scheme = "no-local-version"
 
 [tool.cibuildwheel]
 # Only build CPython 3.9, because we have portable abi3 wheels.
-build =  "cp39-*"
+build =  ["cp39-*", "pp39-*"]
+enable = ["pypy-eol"] # our oldest supported version is already eol on PyPy
 before-all = "uname -a"
 test-command = 'python -Ic "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"'
 
 [tool.cibuildwheel.macos]
-# Our universal2 wheel is less than 60 KB, so no need to split them up
-archs = ["universal2"]
+# PyPy has no universal2, so let's build them all, always.
+archs = ["all"]
 
 
 [tool.pytest.ini_options]
