@@ -59,9 +59,9 @@ local_scheme = "no-local-version"
 
 
 [tool.cibuildwheel]
-# Only build CPython 3.9, because we have portable abi3 wheels.
-build =  ["cp39-*", "pp39-*"]
-enable = ["pypy-eol"] # our oldest supported version is already eol on PyPy
+# Only build CPython 3.9, because we have portable abi3 wheels. PyPy 3.9 is EOL & doesn't build.
+build =  ["cp39-*", "pp310-*"]
+enable = ["pypy"]
 before-all = "uname -a"
 test-command = 'python -Ic "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"'
 
