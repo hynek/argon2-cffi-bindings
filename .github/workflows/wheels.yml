@@ -31,7 +31,7 @@ jobs:
           fetch-tags: true
           persist-credentials: false
 
-      - uses: pypa/cibuildwheel@v2.23
+      - uses: pypa/cibuildwheel@v3.0
         env:
           # Only build CPython 3.9, because we have portable abi3 wheels.
           CIBW_BUILD: "cp39-*"
