@@ -61,7 +61,7 @@ local_scheme = "no-local-version"
 [tool.cibuildwheel]
 build =  [
     "cp39-*" ,  # We have portable abi3 wheels.
-    "pp310-*",  # 3.9 is EOL and doesn't build on Windows anymore.
+    "pp310-*",  # PyPy 3.9 is EOL and doesn't build on Windows anymore.
 ]
 enable = ["pypy"]
 before-all = "uname -a"
