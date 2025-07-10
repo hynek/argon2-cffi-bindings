@@ -61,9 +61,10 @@ local_scheme = "no-local-version"
 [tool.cibuildwheel]
 build =  [
     "cp39-*" ,  # We have portable abi3 wheels.
+    "cp313t-*", # Free-threading / nogil.
     "pp310-*",  # PyPy 3.9 is EOL and doesn't build on Windows anymore.
 ]
-enable = ["pypy"]
+enable = ["pypy", "cpython-freethreading"]
 before-all = "uname -a"
 test-command = 'python -Ic "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"'
 
