@@ -58,6 +58,20 @@ where = ["src"]
 local_scheme = "no-local-version"
 
 
+[tool.cibuildwheel]
+build =  [
+    "cp39-*" ,  # We have portable abi3 wheels.
+    "pp310-*",  # PyPy 3.9 is EOL and doesn't build on Windows anymore.
+]
+enable = ["pypy", "cpython-freethreading"]
+before-all = "uname -a"
+test-command = 'python -Ic "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"'
+
+[tool.cibuildwheel.macos]
+# PyPy has no universal2, so let's build them all, always.
+archs = ["all"]
+
+
 [tool.pytest.ini_options]
 addopts = ["-ra", "--strict-markers", "--strict-config", "--capture=no"]
 xfail_strict = true
@@ -92,7 +106,7 @@ ignore = [
     "FIX",     # Yes, we want XXX as a marker.
     "INP001",  # sometimes we want Python files outside of packages
     "ISC001",  # conflicts with ruff format
-    "PLR0913", # yes, many arguments, but most have defaults
+    "PLC0415", # sometimes, imports must live elsewhere
     "PLR2004", # numbers are sometimes fine
     "PLW2901", # re-assigning within loop bodies is fine
     "RUF001",  # leave my smart characters alone
