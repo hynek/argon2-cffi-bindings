@@ -69,14 +69,14 @@ $ git submodule update   # update the vendored Argon2 C library to the version w
 Now an editable version of *argon2-cffi-bindings* along with its test requirements can be installed as usual:
 
 ```console
-$ python -Im pip install --upgrade pip setuptools cffi  # PLEASE don't skip this step
-$ python -Im pip install -e '.[dev]'
+$ python -Im pip install --upgrade pip  # PLEASE don't skip this step
+$ python -Im pip install -e . --group dev
 ```
 
 At this point,
 
 ```console
-$ python -m pytest
+$ python -Im pytest
 ```
 
 should work and pass.
@@ -99,8 +99,8 @@ You can also run them anytime (as our tox does) using:
 $ pre-commit run --all-files
 ```
 
-[^dev]: *pre-commit* should have been installed into your virtualenv automatically when you ran `pip install -e '.[dev]'` above.
-        If *pre-commit* is missing, your probably need to run `pip install -e '.[dev]'` again.
+[^dev]: *pre-commit* should have been installed into your virtualenv automatically when you ran `python -Im pip install -e . --group dev` above.
+        If *pre-commit* is missing, your probably need to run `python -Im pip install -e . --group dev` again.
 
 
 ## Code

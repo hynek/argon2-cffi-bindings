@@ -44,14 +44,15 @@ dependencies = [
     "cffi>=2.0.0b1; python_version >= '3.14'",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 tests = ["pytest"]
-dev = ["argon2-cffi-bindings[tests]", "cogapp", "pre-commit", "wheel"]
+dev = [{ include-group = "tests" }, "cogapp", "pre-commit"]
+
 
 [project.urls]
 Tidelift = "https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek"
 Changelog = "https://github.com/hynek/argon2-cffi-bindings/blob/main/CHANGELOG.md"
-GitHub= "https://github.com/hynek/argon2-cffi-bindings"
+GitHub = "https://github.com/hynek/argon2-cffi-bindings"
 Funding = "https://github.com/sponsors/hynek"
 
 
@@ -65,8 +66,8 @@ local_scheme = "no-local-version"
 
 
 [tool.cibuildwheel]
-build =  [
-    "cp39-*" ,  # We have portable abi3 wheels.
+build = [
+    "cp39-*",   # We have portable abi3 wheels.
     "cp314t-*", # Free-threading / nogil.
     "pp310-*",  # PyPy 3.9 is EOL and doesn't build on Windows anymore.
 ]
