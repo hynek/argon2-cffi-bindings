@@ -51,7 +51,7 @@ Vendoring Argon2 @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/co
 
 ### Changed
 
-- The compilation of the vendored Argon2 C library is now left to *CFFI*.
+- The compilation of the vendored Argon2 C library is now left to CFFI.
   This prevents the accidental usage of a system-wide Argon2 installation.
   [#1](https://github.com/hynek/argon2-cffi-bindings/pull/1)
 
