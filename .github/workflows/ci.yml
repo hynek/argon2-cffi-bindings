@@ -129,6 +129,9 @@ jobs:
       - run: ldd src/_argon2_cffi_bindings/_ffi.abi3.so
         if: startsWith(matrix.os , 'ubuntu')
 
+      - name: Check presence of pytest
+        run: pytest --version
+
   cog-check:
     name: Ensure cogified files are up-to-date
     runs-on: ubuntu-latest
