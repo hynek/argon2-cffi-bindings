@@ -33,6 +33,7 @@ Vendoring Argon2 @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/co
   No code or packaging changes were necessary.
 
 - Support for free-threading (aka nogil) on Python 3.14.
+  [#70](https://github.com/hynek/argon2-cffi-bindings/pull/70)
   [#93](https://github.com/hynek/argon2-cffi-bindings/pull/93)
 
 - Wheels for Windows on ARM64.
