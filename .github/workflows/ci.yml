@@ -120,7 +120,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version-default
-      - run: python -Im pip install -e .[dev]
+      - run: python -Im pip install -e . --group dev
 
       - name: Import package
         run: python -c 'from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)'
