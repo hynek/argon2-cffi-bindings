@@ -7,18 +7,11 @@ The **third number** is when we need to start branches for older releases (only 
 
 <!-- changelog follows -->
 
-## [Unreleased](https://github.com/hynek/argon2-cffi-bindings/compare/21.2.0...HEAD)
+## [25.1.0](https://github.com/hynek/argon2-cffi-bindings/compare/21.2.0...25.1.0) - 2025-07-30
 
-<!-- [[[cog
-# Extract commit ID; refresh using `tox -e cog`
-import subprocess
-out = subprocess.check_output(["git", "submodule"], text=True)
-id = out.strip().split(" ", 1)[0]
-link = f'[**`{id[:7]}`**](https://github.com/P-H-C/phc-winner-argon2/commit/{id})'
-print(f"Vendoring Argon2 @ {link}.")
-]]] -->
+
 Vendoring Argon2 @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/commit/f57e61e19229e23c4445b85494dbf7c07de721cb).
-<!-- [[[end]]] -->
+
 
 ### Added
 
