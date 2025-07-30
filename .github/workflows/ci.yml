@@ -29,6 +29,7 @@ jobs:
           - "3.12"
           - "3.13"
           - "3.14"
+          - "3.14t"
           - "pypy-3.9"
           - "pypy-3.10"
 
@@ -56,7 +57,7 @@ jobs:
 
           echo TOX_PYTHON=$V >>$GITHUB_ENV
 
-      - run: python -Im tox run -f $TOX_PYTHON
+      - run: python -Im tox run -e $TOX_PYTHON
 
   system-package:
     runs-on: ubuntu-latest

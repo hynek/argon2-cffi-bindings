@@ -2,7 +2,8 @@
 requires = [
     "setuptools>=77",
     "setuptools_scm[toml]>=6.2",
-    "cffi>=1.0.1",
+    "cffi>=1.0.1; python_version < '3.14'",
+    "cffi>=2.0.0b1; python_version >= '3.14'",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -30,13 +31,18 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Free Threading",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
     "Topic :: Security :: Cryptography",
     "Topic :: Security",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = ["cffi>=1.0.1"]
+dependencies = [
+    "cffi>=1.0.1; python_version < '3.14'",
+    "cffi>=2.0.0b1; python_version >= '3.14'",
+]
 
 [project.optional-dependencies]
 tests = ["pytest"]
@@ -61,10 +67,10 @@ local_scheme = "no-local-version"
 [tool.cibuildwheel]
 build =  [
     "cp39-*" ,  # We have portable abi3 wheels.
-    "cp313t-*", # Free-threading / nogil.
+    "cp314t-*", # Free-threading / nogil.
     "pp310-*",  # PyPy 3.9 is EOL and doesn't build on Windows anymore.
 ]
-enable = ["pypy", "cpython-freethreading"]
+enable = ["pypy"]
 before-all = "uname -a"
 test-command = 'python -Ic "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"'
 

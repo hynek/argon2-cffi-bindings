@@ -25,6 +25,9 @@ Vendoring Argon2 @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/co
 - Official Python 3.12, 3.13, and 3.14 support.
   No code or packaging changes were necessary.
 
+- Support for free-threading (aka nogil) on Python 3.14.
+  [#93](https://github.com/hynek/argon2-cffi-bindings/pull/93)
+
 
 ### Removed
 
