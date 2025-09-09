@@ -41,7 +41,7 @@ classifiers = [
 ]
 dependencies = [
     "cffi>=1.0.1; python_version < '3.14'",
-    "cffi>=2.0.0b1; python_version >= '3.14'",
+    "cffi>=2; python_version >= '3.14'",
 ]
 
 [dependency-groups]
