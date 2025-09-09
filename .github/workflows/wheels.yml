@@ -23,7 +23,7 @@ jobs:
         os: [ubuntu-22.04, ubuntu-22.04-arm, windows-2022, windows-11-arm, macOS-14]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           submodules: recursive
           fetch-depth: 0
@@ -31,9 +31,9 @@ jobs:
           persist-credentials: false
 
       # See pyproject.toml for config.
-      - uses: pypa/cibuildwheel@v3.1
+      - uses: pypa/cibuildwheel@c923d83ad9c1bc00211c5041d0c3f73294ff88f6 # v3.1.4
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: wheels-${{ matrix.os }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
