@@ -3,7 +3,7 @@ requires = [
     "setuptools>=77",
     "setuptools_scm[toml]>=6.2",
     "cffi>=1.0.1; python_version < '3.14'",
-    "cffi>=2.0.0b1; python_version >= '3.14'",
+    "cffi>=2; python_version >= '3.14'",
 ]
 build-backend = "setuptools.build_meta"
 
