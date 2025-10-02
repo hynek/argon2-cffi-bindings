@@ -21,6 +21,11 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
 <!-- [[[end]]] -->
 
 
+### Added
+
+- PyPy 3.11 wheels.
+
+
 ## [25.1.0](https://github.com/hynek/argon2-cffi-bindings/compare/21.2.0...25.1.0) - 2025-07-30
 
 
