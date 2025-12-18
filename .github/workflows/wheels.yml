@@ -15,12 +15,20 @@ permissions: {}
 
 jobs:
   wheels:
-    name: Building for ${{ matrix.os }}
+    name: Building for ${{ matrix.os }}${{ matrix.name_suffix || '' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, ubuntu-22.04-arm, windows-2022, windows-11-arm, macOS-14]
+        include:
+          - os: ubuntu-22.04
+          - os: ubuntu-22.04-arm
+          - os: windows-2022
+          - os: windows-11-arm
+          - os: macOS-14
+          - os: ubuntu-22.04
+            cibw_archs: "riscv64"
+            name_suffix: "-riscv64"
 
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -30,11 +38,19 @@ jobs:
           fetch-tags: true
           persist-credentials: false
 
+      - name: Set up QEMU for RISC-V emulation
+        if: matrix.cibw_archs == 'riscv64'
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: riscv64
+
       # See pyproject.toml for config.
       - uses: pypa/cibuildwheel@63fd63b352a9a8bdcc24791c9dbee952ee9a8abc # v3.3.0
+        env:
+          CIBW_ARCHS: ${{ matrix.cibw_archs || 'auto' }}
 
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
-          name: wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          name: wheels-${{ matrix.os }}${{ matrix.name_suffix || '' }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
 ...
