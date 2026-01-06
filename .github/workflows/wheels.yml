@@ -40,7 +40,7 @@ jobs:
 
       - name: Set up QEMU for RISC-V emulation
         if: matrix.cibw_archs == 'riscv64'
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
         with:
           platforms: riscv64
 
