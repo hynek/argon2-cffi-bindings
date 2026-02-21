@@ -23,6 +23,9 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
 
 ### Added
 
+- Python 3.15 support.
+  No free-threading wheels for now, because *cibuildwheel* doesn't support Python 3.15, yet.
+
 - PyPy 3.11 wheels.
 
 - Wheels for Linux on RISC-V 64bit.
