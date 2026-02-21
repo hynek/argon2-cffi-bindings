@@ -70,6 +70,7 @@ local_scheme = "no-local-version"
 build = [
     "cp39-*",   # We have portable abi3 wheels.
     "cp314t-*", # Free-threading / nogil.
+    "cp315t-*", # No stable ABI for free-treading, yet.
     # PyPy 3.9 is EOL and doesn't build on Windows anymore.
     "pp310-*",
     "pp311-*",
