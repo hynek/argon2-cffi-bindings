@@ -33,6 +33,8 @@ jobs:
           - "pypy-3.9"
           - "pypy-3.10"
           - "pypy-3.11"
+    env:
+      PYTHON: ${{ matrix.python-version }}
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -45,20 +47,7 @@ jobs:
           allow-prereleases: true
           cache: pip
       - run: python -Im pip install tox
-
-      - name: Determine Python version for tox
-        env:
-          V: ${{ matrix.python-version }}
-        run: |
-          if [[ "$V" = pypy-* ]]; then
-            V=$(echo $V | tr -d .-)
-          else
-            V=py$(echo $V | tr -d .)
-          fi
-
-          echo TOX_PYTHON=$V >>$GITHUB_ENV
-
-      - run: python -Im tox run -e $TOX_PYTHON
+      - run: python -Im tox run -e $PYTHON
 
   system-package:
     runs-on: ubuntu-latest
