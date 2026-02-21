@@ -121,7 +121,7 @@ ignore = [
     "PLW2901", # re-assigning within loop bodies is fine
     "RUF001",  # leave my smart characters alone
     "SLF001",  # private members are accessed by friendly functions
-    "TCH",     # TYPE_CHECKING blocks break autodocs
+    "TC",      # TYPE_CHECKING blocks break autodocs
     "TD",      # we don't follow other people's todo style
 ]
 
@@ -130,7 +130,6 @@ ignore = [
     "ARG",    # stubs don't care about arguments
     "S101",   # assert
     "SIM300", # Yoda rocks in asserts
-    "PT005",  # we always add underscores and explicit name
     "PT011",  # broad is fine
     "TRY002", # stock exceptions are fine in tests
     "EM101",  # no need for exception msg hygiene in tests
