@@ -67,6 +67,7 @@ local_scheme = "no-local-version"
 
 
 [tool.cibuildwheel]
+build-fronted = "uv"
 build = [
     "cp39-*",   # We have portable abi3 wheels.
     "cp314t-*", # Free-threading / nogil.
