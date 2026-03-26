@@ -27,6 +27,8 @@ jobs:
           persist-credentials: false
       - uses: hynek/build-and-inspect-python-package@35116b25fb28e4b91149d761b2230d28ef49adc0 # v2.16.0
         id: baipp
+        with:
+          include-free-threaded: 'true'
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
