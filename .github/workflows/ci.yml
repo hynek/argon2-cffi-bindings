@@ -19,6 +19,8 @@ jobs:
   build-package:
     name: Build & verify package
     runs-on: ubuntu-latest
+    env:
+      BUILD_PYTHON: "3.14"
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -29,11 +31,12 @@ jobs:
         id: baipp
         with:
           include-free-threaded: 'true'
+          python-version:  ${{ env.BUILD_PYTHON }}
 
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           cache: pip
-          python-version: "3.x"  # use the one that baipp used
+          python-version: ${{ env.BUILD_PYTHON }}
 
       # Smoke-check the wheel against argon2-cffi.
       - run: python -Im pip install $DIST/*.whl
