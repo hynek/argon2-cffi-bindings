@@ -72,6 +72,25 @@ jobs:
       - run: python -Im pip install tox
       - run: python -Im tox run -e $PYTHON
 
+  tests-pypy:
+    name: Tests against latest PyPy
+    runs-on: ubuntu-latest
+    env:
+      PYTHON: pypy3.11
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
+          cache: pip
+      - run: python -Im pip install tox
+      - run: python -Im tox run -e $PYTHON
+
   system-package:
     runs-on: ubuntu-latest
     name: Install and test with system package of Argon2
@@ -145,6 +164,7 @@ jobs:
     needs:
       - build-package
       - tests
+      - tests-pypy
       - install-dev
       - system-package
       - cog-check
