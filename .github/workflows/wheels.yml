@@ -38,7 +38,20 @@ jobs:
           fetch-tags: true
           persist-credentials: false
 
+      - name: Set up Python (riscv64)
+        if: matrix.cibw_archs == 'riscv64'
+        run: |
+          PYTHON_DIR=$(ls -d /opt/python-3.1*/bin 2>/dev/null | sort -V | tail -1)
+          if [ -n "$PYTHON_DIR" ]; then
+            echo "$PYTHON_DIR" >> "$GITHUB_PATH"
+            echo "Using Python from $PYTHON_DIR"
+          else
+            echo "No /opt/python found, using system Python"
+          fi
+          python3 --version
+
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        if: matrix.cibw_archs != 'riscv64'
         with:
           enable-cache: false
 
