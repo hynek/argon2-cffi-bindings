@@ -62,7 +62,7 @@ jobs:
 
       - name: Build wheels (riscv64 native)
         if: matrix.cibw_archs == 'riscv64'
-        run: uvx cibuildwheel --output-dir wheelhouse
+        run: uvx --python 3.14 cibuildwheel --output-dir wheelhouse
         env:
           CIBW_ARCHS: riscv64
 
