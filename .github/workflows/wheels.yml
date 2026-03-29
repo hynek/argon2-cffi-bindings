@@ -45,16 +45,17 @@ jobs:
           cache-suffix: -${{ matrix.os }}
 
       # Use the GitHub Action for all platforms except riscv64
-      - uses: pypa/cibuildwheel@ee02a1537ce3071a004a6b08c41e72f0fdc42d9a # v3.4.0
+      - name: Build wheels on ${{ matrix.os }}
+        uses: pypa/cibuildwheel@ee02a1537ce3071a004a6b08c41e72f0fdc42d9a # v3.4.0
         if: ${{ !endsWith(matrix.os, 'riscv') }}
         env:
           CIBW_ARCHS: auto
 
       # On riscv64 native runners, run cibuildwheel via uvx to avoid
       # the GitHub Action's setup-python call (not available for riscv64)
-      - name: Build wheels (riscv64 native)
-        if: ${{ endsWith(matrix.os, 'riscv') }}
+      - name: Build wheels on ${{ matrix.os }}
         run: uvx --python 3.14 cibuildwheel --output-dir wheelhouse
+        if: ${{ endsWith(matrix.os, 'riscv') }}
         env:
           CIBW_ARCHS: riscv64
 
