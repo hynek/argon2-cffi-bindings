@@ -31,8 +31,8 @@ jobs:
           - os: windows-11-arm
           - os: macOS-14
           - os: ubuntu-24.04-riscv
-            cibw_archs: "riscv64"
-            name_suffix: "-riscv64"
+            cibw_archs: riscv64
+            name_suffix: -riscv64
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -53,15 +53,16 @@ jobs:
         env:
           CIBW_ARCHS: ${{ matrix.cibw_archs || 'auto' }}
 
-      # On riscv64 native runners, run cibuildwheel via pipx to avoid
+      # On riscv64 native runners, run cibuildwheel via uvx to avoid
       # the GitHub Action's setup-python call (not available for riscv64)
+      - uses: hynek/setup-cached-uv@4300ec2180bc77d705e626a34e381b81a4772c51 # v2.5.0
+        if: matrix.cibw_archs == 'riscv64'
+        with:
+          cache-suffix: -riscv64
+
       - name: Build wheels (riscv64 native)
         if: matrix.cibw_archs == 'riscv64'
-        run: |
-          export PATH="$(ls -d /opt/python-3.1*/bin 2>/dev/null | sort -V | tail -1):$PATH"
-          python3 --version
-          python3 -m pip install pipx
-          pipx run cibuildwheel --output-dir wheelhouse
+        run: uvx cibuildwheel --output-dir wheelhouse
         env:
           CIBW_ARCHS: riscv64
 
