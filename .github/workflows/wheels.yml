@@ -41,10 +41,9 @@ jobs:
           persist-credentials: false
 
       - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        if: ${{ !endsWith(matrix.os, 'riscv') }}
         with:
-          python-version: "3.14"
-          cache-suffix: ${{ matrix.os }}
-          cache-python: "true"
+          enable-cache: "false"  # Python happens within cibuildwheel action
 
       # Use the GitHub Action for all platforms except riscv64
       - name: Build wheels on ${{ matrix.os }}
@@ -54,7 +53,16 @@ jobs:
           CIBW_ARCHS: auto
 
       # On riscv64 native runners, run cibuildwheel via uvx to avoid
-      # the GitHub Action's setup-python call (not available for riscv64)
+      # the GitHub Action's setup-python call (not available for riscv64).
+      # So the action happens on this host and there're packages to cache.
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        if: ${{ endsWith(matrix.os, 'riscv') }}
+        with:
+          enable-cache: "true"
+          python-version: "3.14"
+          cache-suffix: ${{ matrix.os }}
+          cache-python: "true"
+
       - name: Build wheels on ${{ matrix.os }}
         run: uvx --python 3.14 cibuildwheel --output-dir wheelhouse
         if: ${{ endsWith(matrix.os, 'riscv') }}
