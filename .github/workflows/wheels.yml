@@ -40,9 +40,11 @@ jobs:
           fetch-tags: true
           persist-credentials: false
 
-      - uses: hynek/setup-cached-uv@4300ec2180bc77d705e626a34e381b81a4772c51 # v2.5.0
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
         with:
-          cache-suffix: -${{ matrix.os }}
+          python-version: "3.14"
+          cache-suffix: ${{ matrix.os }}
+          cache-python: "true"
 
       # Use the GitHub Action for all platforms except riscv64
       - name: Build wheels on ${{ matrix.os }}
