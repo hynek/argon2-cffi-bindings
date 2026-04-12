@@ -61,4 +61,27 @@ jobs:
         with:
           name: wheels-${{ matrix.os }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
-...
+
+  pypi-publish:
+    if: |
+      github.event.repository.fork == false
+      && github.event_name == 'push'
+      && startsWith(github.ref, 'refs/tags')
+    needs: wheels
+    runs-on: ubuntu-latest
+    name: Upload release to PyPI
+    environment:
+      name: release-pypi
+      url: https://pypi.org/p/argon2-cffi-bindings
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: wheels-*
+          path: dist
+          merge-multiple: true
+      - name: List files
+        run: ls -la dist/
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
