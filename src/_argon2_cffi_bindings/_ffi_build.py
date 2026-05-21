@@ -9,7 +9,11 @@ from pathlib import Path
 from cffi import FFI
 
 
-use_system_argon2 = os.environ.get("ARGON2_CFFI_USE_SYSTEM", "0") == "1"
+def _use_system_lib() -> bool:
+    return os.environ.get("ARGON2_CFFI_USE_SYSTEM", "0") == "1"
+
+
+use_system_argon2 = _use_system_lib()
 use_sse2 = os.environ.get("ARGON2_CFFI_USE_SSE2", None)
 windows = platform.system() == "Windows"
 # Free-threaded CPython doesn't support limited API.
@@ -17,7 +21,7 @@ limited_api = not sysconfig.get_config_var("Py_GIL_DISABLED")
 
 
 # Try to detect cross-compilation.
-def _get_target_platform(arch_flags, default):
+def _get_target_platform(arch_flags: str, default: str) -> str:
     flags = [f for f in arch_flags.split(" ") if f.strip() != ""]
     try:
         pos = flags.index("-arch")
