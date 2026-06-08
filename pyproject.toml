@@ -71,11 +71,12 @@ build-frontend = "uv"
 build = [
     "cp39-*",   # We have portable abi3 wheels.
     "cp314t-*", # Free-threading / nogil.
+    "cp315t-*", # No stable ABI for free-treading, yet.
     # PyPy 3.9 is EOL and doesn't build on Windows anymore.
     "pp310-*",
     "pp311-*",
 ]
-enable = ["pypy", "pypy-eol"]
+enable = ["pypy", "pypy-eol", "cpython-prerelease"]
 before-all = "uname -a"
 test-command = 'python -Ic "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"'
 
