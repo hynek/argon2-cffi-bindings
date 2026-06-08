@@ -32,6 +32,12 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
   [#106](https://github.com/hynek/argon2-cffi-bindings/pull/106)
 
 
+### Removed
+
+- Python 3.13t wheels.
+  Free-threading on 3.13 was always only experimental and both [*manylinux*](https://github.com/pypa/manylinux/issues/1882) and [*cibuildwheel*](https://github.com/pypa/cibuildwheel/pull/2684) dropped support for it.
+
+
 ## [25.1.0](https://github.com/hynek/argon2-cffi-bindings/compare/21.2.0...25.1.0) - 2025-07-30
 
 
