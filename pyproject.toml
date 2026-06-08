@@ -77,7 +77,7 @@ build = [
     "pp310-*",
     "pp311-*",
 ]
-enable = ["pypy", "pypy-eol"]
+enable = ["pypy", "pypy-eol", "cpython-prerelease"]
 before-all = "uname -a"
 test-command = 'python -Ic "from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)"'
 
