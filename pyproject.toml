@@ -47,6 +47,7 @@ dependencies = [
 
 [dependency-groups]
 tests = ["pytest"]
+pyodide = ["pyodide-build>=0.35; python_version >= '3.12'"]
 dev = [{ include-group = "tests" }, "cogapp", "pre-commit"]
 
 
@@ -86,6 +87,13 @@ build-frontend = "build"
 [tool.cibuildwheel.macos]
 # PyPy has no universal2, so let's build them all, always.
 archs = ["all"]
+
+[tool.cibuildwheel.pyodide]
+build = ["cp314-pyodide_wasm32"]
+enable = ["pyodide-prerelease"]
+pyodide-version = "314.0.0"
+test-requires = ["pytest"]
+test-command = "python -m pytest {project}/tests/test_smoke.py"
 
 
 [tool.pytest.ini_options]
