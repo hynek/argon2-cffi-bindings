@@ -90,7 +90,6 @@ archs = ["all"]
 
 [tool.cibuildwheel.pyodide]
 build = ["cp314-pyodide_wasm32"]
-enable = ["pyodide-prerelease"]
 pyodide-version = "314.0.0"
 test-requires = ["pytest"]
 test-command = "python -m pytest {project}/tests/test_smoke.py"
