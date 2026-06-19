@@ -19,7 +19,7 @@ use_sse2 = os.environ.get("ARGON2_CFFI_USE_SSE2", None)
 windows = platform.system() == "Windows"
 emscripten = _is_emscripten_build()
 # Free-threaded CPython doesn't support limited API.
-limited_api = not (sysconfig.get_config_var("Py_GIL_DISABLED") or emscripten)
+limited_api = not sysconfig.get_config_var("Py_GIL_DISABLED")
 
 if use_system_argon2 and emscripten:
     msg = "ARGON2_CFFI_USE_SYSTEM=1 is not supported for Emscripten builds."
