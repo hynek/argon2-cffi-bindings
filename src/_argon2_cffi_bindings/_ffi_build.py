@@ -44,9 +44,9 @@ target_platform = _get_target_platform(
 )
 
 
-if emscripten or use_sse2 == "0":
+if use_sse2 == "0":
     optimized = False
-elif use_sse2 == "1":
+elif use_sse2 == "1" or emscripten:
     optimized = True
 else:
     # Optimized version requires SSE2 extensions. They have been around since
@@ -66,7 +66,9 @@ if use_system_argon2:
 else:
     lib_base = Path("extras") / "libargon2" / "src"
     extra_compile_args = []
-    if optimized and not windows:
+    if optimized and emscripten:
+        extra_compile_args += ["-msimd128", "-msse2"]
+    elif optimized and not windows:
         extra_compile_args.append("-msse2")
     if emscripten:
         extra_compile_args.append("-DARGON2_NO_THREADS")
