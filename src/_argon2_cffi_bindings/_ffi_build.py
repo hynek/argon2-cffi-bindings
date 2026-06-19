@@ -2,6 +2,7 @@
 
 import os
 import platform
+import sys
 import sysconfig
 
 from pathlib import Path
@@ -9,11 +10,21 @@ from pathlib import Path
 from cffi import FFI
 
 
+def _is_emscripten_build():
+    return sys.platform == "emscripten" or os.environ.get("PYODIDE")
+
+
 use_system_argon2 = os.environ.get("ARGON2_CFFI_USE_SYSTEM", "0") == "1"
 use_sse2 = os.environ.get("ARGON2_CFFI_USE_SSE2", None)
 windows = platform.system() == "Windows"
+emscripten = _is_emscripten_build()
 # Free-threaded CPython doesn't support limited API.
-limited_api = not sysconfig.get_config_var("Py_GIL_DISABLED")
+# Pyodide is one version per Python version, so it's pointless.
+limited_api = not (sysconfig.get_config_var("Py_GIL_DISABLED") or emscripten)
+
+if use_system_argon2 and emscripten:
+    msg = "ARGON2_CFFI_USE_SYSTEM=1 is not supported for Emscripten builds."
+    raise RuntimeError(msg)
 
 
 # Try to detect cross-compilation.
@@ -34,10 +45,10 @@ target_platform = _get_target_platform(
 )
 
 
-if use_sse2 == "1":
-    optimized = True
-elif use_sse2 == "0":
+if use_sse2 == "0":
     optimized = False
+elif use_sse2 == "1" or emscripten:
+    optimized = True
 else:
     # Optimized version requires SSE2 extensions. They have been around since
     # 2001 so we try to compile it on every recent-ish x86.
@@ -55,10 +66,18 @@ if use_system_argon2:
     )
 else:
     lib_base = Path("extras") / "libargon2" / "src"
+    extra_compile_args = []
+    if optimized and emscripten:
+        extra_compile_args += ["-msimd128", "-msse2"]
+    elif optimized and not windows:
+        extra_compile_args.append("-msse2")
+    if emscripten:
+        extra_compile_args.append("-DARGON2_NO_THREADS")
+
     ffi.set_source(
         "_ffi",
         "#include <argon2.h>",
-        extra_compile_args=["-msse2"] if (optimized and not windows) else None,
+        extra_compile_args=extra_compile_args or None,
         include_dirs=[str(Path("extras", "libargon2", "include"))],
         py_limited_api=limited_api,
         sources=[

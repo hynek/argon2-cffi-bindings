@@ -28,8 +28,11 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
 
 - PyPy 3.11 wheels.
 
-- Wheels for Linux on RISC-V 64bit.
+- Linux on RISC-V 64bit wheels.
   [#106](https://github.com/hynek/argon2-cffi-bindings/pull/106)
+
+- *pyemscripten* wheels for Python 3.13 and 3.14.
+  [#129](https://github.com/hynek/argon2-cffi-bindings/pull/129)
 
 
 ### Removed
