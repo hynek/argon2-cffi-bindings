@@ -1,15 +1,10 @@
 # SPDX-License-Identifier: MIT
 
-import os
 import platform
 import sys
 import sysconfig
 
 from setuptools import setup
-
-
-def _is_emscripten_build():
-    return os.environ.get("PYODIDE")
 
 
 cmdclass = {}
@@ -24,10 +19,7 @@ if platform.python_implementation() == "CPython":
         class BDistWheel(bdist_wheel):
             def finalize_options(self):
                 # Free-threaded CPython and Pyodide wheels are exact-ABI.
-                if (
-                    sysconfig.get_config_var("Py_GIL_DISABLED")
-                    or _is_emscripten_build()
-                ):
+                if sysconfig.get_config_var("Py_GIL_DISABLED"):
                     self.py_limited_api = False
                 else:
                     self.py_limited_api = f"cp3{sys.version_info[1]}"
