@@ -9,7 +9,7 @@ from setuptools import setup
 
 
 def _is_emscripten_build():
-    return sys.platform == "emscripten" or os.environ.get("PYODIDE")
+    return os.environ.get("PYODIDE")
 
 
 cmdclass = {}
