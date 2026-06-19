@@ -2,7 +2,6 @@
 
 import os
 import platform
-import sys
 import sysconfig
 
 from pathlib import Path
@@ -10,14 +9,10 @@ from pathlib import Path
 from cffi import FFI
 
 
-def _is_emscripten_build():
-    return sys.platform == "emscripten" or os.environ.get("PYODIDE")
-
-
 use_system_argon2 = os.environ.get("ARGON2_CFFI_USE_SYSTEM", "0") == "1"
 use_sse2 = os.environ.get("ARGON2_CFFI_USE_SSE2", None)
 windows = platform.system() == "Windows"
-emscripten = _is_emscripten_build()
+emscripten = os.environ.get("PYODIDE")
 # Free-threaded CPython doesn't support limited API.
 # Pyodide is one version per Python version, so it's pointless.
 limited_api = not (sysconfig.get_config_var("Py_GIL_DISABLED") or emscripten)
