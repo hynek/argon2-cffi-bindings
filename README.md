@@ -1,8 +1,8 @@
 # Low-level Python CFFI Bindings for Argon2
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-C06524)](https://github.com/hynek/argon2-cffi-bindings/blob/main/LICENSE)
+[![No AI slop inside.](https://img.shields.io/badge/no-slop-purple)](https://github.com/hynek/argon2-cffi-bindings/blob/main/.github/AI_POLICY.md)
 [![PyPI version](https://img.shields.io/pypi/v/argon2-cffi-bindings)](https://pypi.org/project/argon2-cffi-bindings/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/argon2-cffi-bindings.svg)](https://pypi.org/project/argon2-cffi-bindings)
 
 *argon2-cffi-bindings* provides low-level [CFFI](https://cffi.readthedocs.io/) bindings to the official implementation of the [Argon2] password hashing algorithm.
 
@@ -86,7 +86,7 @@ The list of symbols that are provided can be found in the [`_ffi_build.py` file]
 ### Credits & License
 
 *argon2-cffi-bindings* is written and maintained by [Hynek Schlawack](https://hynek.me/about/).
-It is released under the [MIT license](https://github.com/hynek/argon2-cffi/blob/main/LICENSE>).
+It is released under the [MIT license](https://github.com/hynek/argon2-cffi-bindings/blob/main/LICENSE).
 
 The development is kindly supported by [Variomedia AG](https://www.variomedia.de/) and all my amazing [GitHub Sponsors](https://github.com/sponsors/hynek).
 

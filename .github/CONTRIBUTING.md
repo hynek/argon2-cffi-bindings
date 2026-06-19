@@ -1,28 +1,46 @@
 # How To Contribute
 
-First off, thank you for considering contributing to *argon2-cffi-bindings*!
-It's people like *you* who make it such a great tool for everyone.
-
-This document intends to make contribution more accessible by codifying tribal knowledge and expectations.
-Don't be afraid to open half-finished PRs, and ask questions if something is unclear!
-
-Please note that this project is released with a Contributor [Code of Conduct](https://github.com/hynek/argon2-cffi-bindings/blob/main/.github/CODE_OF_CONDUCT.md).
-By participating in this project you agree to abide by its terms.
-Please report any harm to [Hynek Schlawack] in any way you find appropriate.
+> [!IMPORTANT]
+> - This document is mainly to help you to get started by codifying tribal knowledge and expectations and make it more accessible to everyone.
+>   But don't be afraid to open half-finished PRs and ask questions if something is unclear!
+>
+> - If you use LLM / "AI" tools for your contributions, please read and follow our [_Generative AI / LLM Policy_][llm].
 
 
 ## Workflow
 
+First off, thank you for considering contributing to *argon2-cffi-bindings*!
+It's people like *you* who make it such a great tool for everyone.
+
+- **Only contribute code that you fully understand.**
+  See also our [AI policy][llm].
+
+- Very relatedly, our pull request checklist is our mandatory [Van Halen test](https://en.wikipedia.org/wiki/Van_Halen_test).
+  Sadly, the current state of the world has forced us to be stricter about policies – sorry fellow humans!
+
 - No contribution is too small!
   Please submit as many fixes for typos and grammar bloopers as you can!
+  They're your license to delete the checklist!
+
+- Before starting big contributions, **talk to us first**.
+  Don't waste energy / tokens on something that we do not want.
+  Rejecting a huge PR is unpleasant for everybody.
+
 - Try to limit each pull request to *one* change only.
-- Since we squash on merge, it's up to you how you handle updates to the main branch.
-  Whether you prefer to rebase on main or merge main into your branch, do whatever is more comfortable for you.
+
+- Since we squash on merge, it's up to you how you handle updates to the `main` branch.
+  Whether you prefer to rebase on `main` or merge `main` into your branch, do whatever is more comfortable for you.
+
+  Just remember to [not use your own `main` branch for the pull request](https://hynek.me/articles/pull-requests-branch/).
+
 - *Always* add tests and docs for your code.
   This is a hard rule; patches with missing tests or documentation can't be merged.
+
 - Make sure your changes pass our [CI].
   You won't get any feedback until it's green unless you ask for it.
+
 - Once you've addressed review feedback, make sure to bump the pull request with a short note, so we know you're done.
+
 - Don’t break backwards compatibility.
 
 
@@ -186,8 +204,19 @@ The bug really *was* nasty.
 ```
 
 
+## See You on GitHub!
+
+Again, this whole file is mainly to help you to get started by codifying tribal knowledge and expectations to save you time and turnarounds.
+It is **not** meant to be a barrier to entry, so don't be afraid to open half-finished PRs and ask questions if something is unclear!
+
+Please note that this project is released with a Contributor [Code of Conduct](CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.
+Please report any harm to [Hynek Schlawack] in any way you find appropriate.
+
+
 [CI]: https://github.com/hynek/argon2-cffi-bindings/actions
 [Hynek Schlawack]: https://hynek.me/about/
 [*pre-commit*]: https://pre-commit.com/
-[*tox*]: https://https://tox.wiki/
+[*tox*]: https://tox.wiki/
 [semantic newlines]: https://rhodesmill.org/brandon/2012/one-sentence-per-line/
+[llm]: AI_POLICY.md
