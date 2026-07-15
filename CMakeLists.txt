@@ -33,11 +33,21 @@ endif()
 
 # cffi's generated code supports the limited API, so we build one abi3
 # wheel per platform. SKBUILD_SABI_VERSION is only set when the target
-# supports the stable ABI (e.g. not on PyPy).
+# supports the stable ABI (e.g. not on PyPy or free-threaded CPython).
 if(NOT "${SKBUILD_SABI_VERSION}" STREQUAL "")
   set(_sabi_args USE_SABI "${SKBUILD_SABI_VERSION}")
 endif()
 python_add_library(_ffi MODULE ${_sabi_args} WITH_SOABI "${FFI_C}")
+
+if("${SKBUILD_SABI_VERSION}" STREQUAL "")
+  # Not a stable-ABI (abi3) build -- e.g. free-threaded CPython or PyPy.
+  # cffi's generated code otherwise turns the limited API on by itself, which
+  # the free-threaded build's Python.h rejects ("The limited API is not
+  # currently supported in the free-threaded build"). Tell cffi to emit a
+  # regular extension instead. (In abi3 builds USE_SABI defines Py_LIMITED_API,
+  # which takes precedence over this, so it is only needed when SABI is off.)
+  target_compile_definitions(_ffi PRIVATE _CFFI_NO_LIMITED_API)
+endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
   set(ARGON2_EMSCRIPTEN TRUE)
