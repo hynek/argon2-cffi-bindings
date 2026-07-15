@@ -164,6 +164,22 @@ jobs:
 
       - run: python -Im tox run -e cog-check
 
+  gen-check:
+    name: Ensure the generated CFFI source is up-to-date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          cache: pip
+          python-version: "3.x"
+
+      - run: python -Im pip install tox
+
+      - run: python -Im tox run -e gen-check
+
   required-checks-pass:
     name: Ensure everything required is passing for branch protection
     if: always()
@@ -175,6 +191,7 @@ jobs:
       - install-dev
       - system-package
       - cog-check
+      - gen-check
 
     runs-on: ubuntu-latest
 

@@ -37,7 +37,8 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
 
 ### Changed
 
-- The bindings are now built with [*scikit-build-core*](https://scikit-build-core.readthedocs.io/) and CMake instead of setuptools, using CFFI's [`cffi-gen-src`](https://cffi.readthedocs.io/en/stable/cffi-gen-src.html) tool to generate the C source for the extension module.
+- The bindings are now built with [*scikit-build-core*](https://scikit-build-core.readthedocs.io/) and CMake instead of setuptools.
+  The C source for the extension module is generated from `_ffi.cdef.txt` and `_ffi.csrc.c` using CFFI's [`cffi-gen-src`](https://cffi.readthedocs.io/en/stable/cffi-gen-src.html) tool and committed to the repository as `_ffi.c`; the build compiles that file directly and needs no CFFI at build time.
   Building from source requires CMake now; if none is found, it is downloaded automatically as part of the build.
 - The abi3 wheels now target CPython 3.10+ instead of 3.9+.
 

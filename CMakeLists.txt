@@ -10,17 +10,26 @@ project(
 find_package(Python REQUIRED COMPONENTS Interpreter Development.Module
                                         ${SKBUILD_SABI_COMPONENT})
 
-# Generate the C source for the CFFI extension module from the FFI
-# definition and the C source prelude. Compile and link settings are
-# handled below; cffi-gen-src does not deal with them.
-set(FFI_CDEF "${CMAKE_CURRENT_SOURCE_DIR}/src/_argon2_cffi_bindings/_ffi.cdef.txt")
-set(FFI_CSRC "${CMAKE_CURRENT_SOURCE_DIR}/src/_argon2_cffi_bindings/_ffi.csrc.c")
-add_custom_command(
-  OUTPUT _ffi.c
-  COMMAND Python::Interpreter -m cffi.gen_src read-sources
-          _argon2_cffi_bindings._ffi "${FFI_CDEF}" "${FFI_CSRC}" _ffi.c
-  DEPENDS "${FFI_CDEF}" "${FFI_CSRC}"
-  VERBATIM)
+# The C source for the CFFI extension module (_ffi.c) is generated from the
+# FFI definition (_ffi.cdef.txt) and the C source prelude (_ffi.csrc.c) with
+# cffi-gen-src, and the result is committed to the repository.
+#
+
+
+# We compile that committed file directly instead of regenerating it during the
+# build: cffi-gen-src ships with CFFI 2.1+, which older PyPy can't provide (it
+# bundles an older CFFI that can't be upgraded), so regenerating at build time
+# would break source builds on PyPy. The generated C is interpreter-independent,
+# so the one committed file builds everywhere and the build needs no CFFI at
+# all. Run `tox -e gen` to regenerate it after editing _ffi.cdef.txt or
+# _ffi.csrc.c
+set(FFI_C "${CMAKE_CURRENT_SOURCE_DIR}/src/_argon2_cffi_bindings/_ffi.c")
+if(NOT EXISTS "${FFI_C}")
+  message(
+    FATAL_ERROR
+      "${FFI_C} is missing. It is generated from _ffi.cdef.txt and "
+      "_ffi.csrc.c with cffi-gen-src; run `tox -e gen` to create it.")
+endif()
 
 # cffi's generated code supports the limited API, so we build one abi3
 # wheel per platform. SKBUILD_SABI_VERSION is only set when the target
@@ -28,8 +37,7 @@ add_custom_command(
 if(NOT "${SKBUILD_SABI_VERSION}" STREQUAL "")
   set(_sabi_args USE_SABI "${SKBUILD_SABI_VERSION}")
 endif()
-python_add_library(_ffi MODULE ${_sabi_args} WITH_SOABI
-                   "${CMAKE_CURRENT_BINARY_DIR}/_ffi.c")
+python_add_library(_ffi MODULE ${_sabi_args} WITH_SOABI "${FFI_C}")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
   set(ARGON2_EMSCRIPTEN TRUE)

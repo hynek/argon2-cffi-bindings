@@ -2,8 +2,6 @@
 requires = [
     "scikit-build-core>=1.0",
     "setuptools-scm>=8",
-    # cffi-gen-src is used to generate the C source for the extension.
-    "cffi>=2.1",
 ]
 build-backend = "scikit_build_core.build"
 
@@ -66,10 +64,12 @@ wheel.packages = ["src/_argon2_cffi_bindings"]
 # platform. Ignored on Pythons that don't support it, such as PyPy and
 # free-threaded CPython.
 wheel.py-api = "cp310"
-# The FFI definition files are build-time inputs, not part of the package.
+# The FFI definition files and the generated C are build inputs, not part of
+# the importable package.
 wheel.exclude = [
     "_argon2_cffi_bindings/_ffi.cdef.txt",
     "_argon2_cffi_bindings/_ffi.csrc.c",
+    "_argon2_cffi_bindings/_ffi.c",
 ]
 # The unsubstituted archival file would confuse setuptools-scm; the sdist
 # carries its version in PKG-INFO.
