@@ -35,7 +35,17 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
   [#129](https://github.com/hynek/argon2-cffi-bindings/pull/129)
 
 
+### Changed
+
+- The bindings are now built with [*scikit-build-core*](https://scikit-build-core.readthedocs.io/) and CMake instead of setuptools, using CFFI's [`cffi-gen-src`](https://cffi.readthedocs.io/en/stable/cffi-gen-src.html) tool to generate the C source for the extension module.
+  Building from source requires CMake now; if none is found, it is downloaded automatically as part of the build.
+- The abi3 wheels now target CPython 3.10+ instead of 3.9+.
+
+
 ### Removed
+
+- Python 3.9 support.
+  It is end-of-life and CFFI 2.1 requires Python 3.10.
 
 - Python 3.13t wheels.
   Free-threading on 3.13 was always only experimental and both [*manylinux*](https://github.com/pypa/manylinux/issues/1882) and [*cibuildwheel*](https://github.com/pypa/cibuildwheel/pull/2684) dropped support for it.

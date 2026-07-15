@@ -32,6 +32,9 @@ The provided CFFI bindings are compiled in API mode.
 
 Best effort is given to provide binary wheels for as many platforms as possible.
 
+Building from source requires a C compiler and [CMake](https://cmake.org).
+If no suitable CMake is found, one is downloaded automatically as part of the build.
+
 
 ### Disabling Vendored Code
 
@@ -45,7 +48,7 @@ $ env ARGON2_CFFI_USE_SYSTEM=1 \
 
 ### Overriding Automatic SSE2 Detection
 
-Usually the build process tries to guess whether or not it should use [SSE2](https://en.wikipedia.org/wiki/SSE2)-optimized code (see [`_ffi_build.py`](https://github.com/hynek/argon2-cffi-bindings/blob/main/src/_argon2_cffi_bindings/_ffi_build.py) for details).
+Usually the build process tries to guess whether or not it should use [SSE2](https://en.wikipedia.org/wiki/SSE2)-optimized code (see [`CMakeLists.txt`](https://github.com/hynek/argon2-cffi-bindings/blob/main/CMakeLists.txt) for details).
 This can go wrong and is problematic for cross-compiling.
 
 Therefore you can use the `ARGON2_CFFI_USE_SSE2` environment variable to control the process:
@@ -69,7 +72,7 @@ from _argon2_cffi_bindings import ffi, lib
 
 Please refer to [*cffi* documentation](https://cffi.readthedocs.io/en/latest/using.html) on how to use the `ffi` and `lib` objects.
 
-The list of symbols that are provided can be found in the [`_ffi_build.py` file](https://github.com/hynek/argon2-cffi-bindings/blob/main/src/_argon2_cffi_bindings/_ffi_build.py).
+The list of symbols that are provided can be found in the [`_ffi.cdef.txt` file](https://github.com/hynek/argon2-cffi-bindings/blob/main/src/_argon2_cffi_bindings/_ffi.cdef.txt).
 
 [Argon2]: https://github.com/p-h-c/phc-winner-argon2
 [*argon2-cffi*]: https://argon2-cffi.readthedocs.io/
