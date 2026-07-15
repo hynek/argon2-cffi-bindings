@@ -81,7 +81,11 @@ if.env.PYODIDE = true
 wheel.py-api = ""
 
 
-[[tool.dynamic-metadata]]
+# scikit-build-core's nested metadata form, rather than the standard top-level
+# [[tool.dynamic-metadata]], because codespell (2.4.x) crashes reading a
+# pyproject.toml that has a top-level array-of-tables under [tool]: it feeds the
+# whole [tool] table to configparser.read_dict, which rejects the list.
+[tool.scikit-build.metadata.version]
 provider = "scikit_build_core.metadata.setuptools_scm"
 
 
