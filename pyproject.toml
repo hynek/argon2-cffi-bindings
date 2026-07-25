@@ -122,6 +122,7 @@ ignore = [
     "ANN",     # Mypy is better at this
     "ARG001",  # unused arguments are normal when implementing interfaces
     "COM",     # Formatter takes care of our commas
+    "CPY",     # they expect a very specific shape of a copyright notice
     "D",       # We prefer our own docstring style.
     "E501",    # leave line-length enforcement to formatter
     "ERA001",  # Dead code detection is overly eager.
