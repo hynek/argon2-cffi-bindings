@@ -1,1 +1,3 @@
 .git_archival.txt export-subst
+# Work around line-ending issue in CFFI, see python-cffi/cffi#267
+src/_argon2_cffi_bindings/_ffi.c text eol=lf

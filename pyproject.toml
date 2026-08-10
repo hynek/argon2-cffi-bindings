@@ -71,21 +71,14 @@ wheel.exclude = [
     "_argon2_cffi_bindings/_ffi.csrc.c",
     "_argon2_cffi_bindings/_ffi.c",
 ]
-# The unsubstituted archival file would confuse setuptools-scm; the sdist
-# carries its version in PKG-INFO.
-sdist.exclude = [".git_archival.txt"]
-
 # Pyodide is one version per Python version, so the limited API is pointless.
 [[tool.scikit-build.overrides]]
 if.env.PYODIDE = true
 wheel.py-api = ""
 
 
-# scikit-build-core's nested metadata form, rather than the standard top-level
-# [[tool.dynamic-metadata]], because codespell (2.4.x) crashes reading a
-# pyproject.toml that has a top-level array-of-tables under [tool]: it feeds the
-# whole [tool] table to configparser.read_dict, which rejects the list.
-[tool.scikit-build.metadata.version]
+[[tool.dynamic-metadata]]
+field = "version"
 provider = "scikit_build_core.metadata.setuptools_scm"
 
 
