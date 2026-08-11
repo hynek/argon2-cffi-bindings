@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 
-cmake_minimum_required(VERSION 3.15...4.3)
+cmake_minimum_required(VERSION 3.20...4.3)
 
 project(
   ${SKBUILD_PROJECT_NAME}
