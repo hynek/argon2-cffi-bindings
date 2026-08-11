@@ -101,7 +101,11 @@ should work and pass.
 
 ---
 
-When working on `src/_argons_cffi_bindings/_ffi_build.py`, it makes sense to regularly delete the `build` directory along with the created binary in `src/_argons_cffi_bindings` (e.g. on macOS and Linux, it's called `_ffi.abi3.so`) to ensure it's built fresh.
+When changing `src/_argon2_cffi_bindings/_ffi.cdef.txt` or `_ffi.csrc.c`, regenerate the committed C source:
+
+```console
+$ tox -e gen
+```
 
 ---
 
