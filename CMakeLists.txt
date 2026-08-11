@@ -10,19 +10,7 @@ project(
 find_package(Python REQUIRED COMPONENTS Interpreter Development.Module
                                         ${SKBUILD_SABI_COMPONENT})
 
-# The C source for the CFFI extension module (_ffi.c) is generated from the
-# FFI definition (_ffi.cdef.txt) and the C source prelude (_ffi.csrc.c) with
-# cffi-gen-src, and the result is committed to the repository.
-#
-
-
-# We compile that committed file directly instead of regenerating it during the
-# build: cffi-gen-src ships with CFFI 2.1+, which older PyPy can't provide (it
-# bundles an older CFFI that can't be upgraded), so regenerating at build time
-# would break source builds on PyPy. The generated C is interpreter-independent,
-# so the one committed file builds everywhere and the build needs no CFFI at
-# all. Run `tox -e gen` to regenerate it after editing _ffi.cdef.txt or
-# _ffi.csrc.c
+# Checked in because supported PyPy releases don't provide cffi-gen-src.
 set(FFI_C "${CMAKE_CURRENT_SOURCE_DIR}/src/_argon2_cffi_bindings/_ffi.c")
 if(NOT EXISTS "${FFI_C}")
   message(
@@ -31,21 +19,13 @@ if(NOT EXISTS "${FFI_C}")
       "_ffi.csrc.c with cffi-gen-src; run `tox -e gen` to create it.")
 endif()
 
-# cffi's generated code supports the limited API, so we build one abi3
-# wheel per platform. SKBUILD_SABI_VERSION is only set when the target
-# supports the stable ABI (e.g. not on PyPy or free-threaded CPython).
 if(NOT "${SKBUILD_SABI_VERSION}" STREQUAL "")
   set(_sabi_args USE_SABI "${SKBUILD_SABI_VERSION}")
 endif()
 python_add_library(_ffi MODULE ${_sabi_args} WITH_SOABI "${FFI_C}")
 
 if("${SKBUILD_SABI_VERSION}" STREQUAL "")
-  # Not a stable-ABI (abi3) build -- e.g. free-threaded CPython or PyPy.
-  # cffi's generated code otherwise turns the limited API on by itself, which
-  # the free-threaded build's Python.h rejects ("The limited API is not
-  # currently supported in the free-threaded build"). Tell cffi to emit a
-  # regular extension instead. (In abi3 builds USE_SABI defines Py_LIMITED_API,
-  # which takes precedence over this, so it is only needed when SABI is off.)
+  # CFFI enables the limited API by default.
   target_compile_definitions(_ffi PRIVATE _CFFI_NO_LIMITED_API)
 endif()
 
@@ -84,18 +64,14 @@ else()
         "of Argon2.")
   endif()
 
-  # The optimized implementation requires SSE2 extensions. They have been
-  # around since 2001, so we use it on every x86 target -- and on
-  # Emscripten, which translates them to Wasm SIMD -- unless
-  # ARGON2_CFFI_USE_SSE2 overrides the choice.
   if("$ENV{ARGON2_CFFI_USE_SSE2}" STREQUAL "0")
     set(ARGON2_USE_SSE2 FALSE)
   elseif("$ENV{ARGON2_CFFI_USE_SSE2}" STREQUAL "1" OR ARGON2_EMSCRIPTEN)
+    # Emscripten translates SSE2 to Wasm SIMD.
     set(ARGON2_USE_SSE2 TRUE)
   else()
     if(APPLE AND CMAKE_OSX_ARCHITECTURES)
-      # May hold multiple architectures (universal2); SSE2 is only usable
-      # if x86 is the only kind of target.
+      # SSE2 is only safe if every universal2 slice is x86.
       set(_target_archs "${CMAKE_OSX_ARCHITECTURES}")
     elseif(CMAKE_GENERATOR_PLATFORM)
       set(_target_archs "${CMAKE_GENERATOR_PLATFORM}")
@@ -134,8 +110,8 @@ else()
     target_compile_options(_ffi PRIVATE -msse2)
   endif()
 
-  # Argon2 uses pthreads everywhere but on Windows; Pyodide has no threads.
   if(ARGON2_EMSCRIPTEN)
+    # Pyodide has no threads.
     target_compile_definitions(_ffi PRIVATE ARGON2_NO_THREADS)
   elseif(NOT WIN32)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
