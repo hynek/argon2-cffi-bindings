@@ -60,18 +60,15 @@ minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
 # The name-based package auto-detection doesn't find our private package name.
 wheel.packages = ["src/_argon2_cffi_bindings"]
-# cffi's generated code supports the limited API; ship one abi3 wheel per
-# platform. Ignored on Pythons that don't support it, such as PyPy and
-# free-threaded CPython.
+# Use the CPython 3.10+ stable ABI where supported.
 wheel.py-api = "cp310"
-# The FFI definition files and the generated C are build inputs, not part of
-# the importable package.
+# Build inputs, not package data.
 wheel.exclude = [
     "_argon2_cffi_bindings/_ffi.cdef.txt",
     "_argon2_cffi_bindings/_ffi.csrc.c",
     "_argon2_cffi_bindings/_ffi.c",
 ]
-# Pyodide is one version per Python version, so the limited API is pointless.
+# Pyodide does not benefit from the limited API.
 [[tool.scikit-build.overrides]]
 if.env.PYODIDE = true
 wheel.py-api = ""
@@ -90,10 +87,9 @@ local_scheme = "no-local-version"
 [tool.cibuildwheel]
 build-frontend = "uv"
 build = [
-    "cp310-*",  # We have portable abi3 wheels.
-    "cp314t-*", # Free-threading / nogil.
-    "cp315t-*", # No stable ABI for free-treading, yet.
-    # PyPy 3.9 is EOL and doesn't build on Windows anymore.
+    "cp310-*",  # abi3 covers CPython 3.10+.
+    "cp314t-*",
+    "cp315t-*",
     "pp310-*",
     "pp311-*",
 ]
