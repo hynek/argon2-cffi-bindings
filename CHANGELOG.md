@@ -35,7 +35,20 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
   [#129](https://github.com/hynek/argon2-cffi-bindings/pull/129)
 
 
+### Changed
+
+- The bindings are now built with [*scikit-build-core*](https://scikit-build-core.readthedocs.io/) and CMake instead of *setuptools*.
+  The C source for the extension module is generated from `_ffi.cdef.txt` and `_ffi.csrc.c` using CFFI's [`cffi-gen-src`](https://cffi.readthedocs.io/en/stable/cffi-gen-src.html) tool and committed to the repository as `_ffi.c`.
+  The build compiles that file directly and needs no CFFI at build time.
+  Building from source requires CMake now.
+  If none is found, it is downloaded automatically as part of the build.
+  [#173](https://github.com/hynek/argon2-cffi-bindings/pull/173)
+
+
 ### Removed
+
+- Python 3.9 support.
+  [#173](https://github.com/hynek/argon2-cffi-bindings/pull/173)
 
 - Python 3.13t wheels.
   Free-threading on 3.13 was always only experimental and both [*manylinux*](https://github.com/pypa/manylinux/issues/1882) and [*cibuildwheel*](https://github.com/pypa/cibuildwheel/pull/2684) dropped support for it.

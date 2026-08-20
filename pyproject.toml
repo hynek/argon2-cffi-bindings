@@ -1,11 +1,9 @@
 [build-system]
 requires = [
-    "setuptools>=77",
-    "setuptools_scm[toml]>=6.2",
-    "cffi>=1.0.1; python_version < '3.14'",
-    "cffi>=2; python_version >= '3.14'",
+    "scikit-build-core>=1.0",
+    "setuptools-scm>=8",
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "scikit_build_core.build"
 
 
 [project]
@@ -14,7 +12,7 @@ name = "argon2-cffi-bindings"
 description = "Low-level CFFI bindings for Argon2"
 readme = { content-type = "text/markdown", file = "README.md" }
 authors = [{ name = "Hynek Schlawack", email = "hs@ox.cx" }]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 keywords = ["password", "hash", "hashing", "security", "bindings", "cffi"]
@@ -26,7 +24,6 @@ classifiers = [
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
     "Operating System :: Unix",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -58,8 +55,28 @@ GitHub = "https://github.com/hynek/argon2-cffi-bindings"
 Funding = "https://github.com/sponsors/hynek"
 
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.scikit-build]
+minimum-version = "build-system.requires"
+build-dir = "build/{wheel_tag}"
+# The name-based package auto-detection doesn't find our private package name.
+wheel.packages = ["src/_argon2_cffi_bindings"]
+# Use the CPython 3.10+ stable ABI where supported.
+wheel.py-api = "cp310"
+# Build inputs, not package data.
+wheel.exclude = [
+    "_argon2_cffi_bindings/_ffi.cdef.txt",
+    "_argon2_cffi_bindings/_ffi.csrc.c",
+    "_argon2_cffi_bindings/_ffi.c",
+]
+# Pyodide does not benefit from the limited API.
+[[tool.scikit-build.overrides]]
+if.env.PYODIDE = true
+wheel.py-api = ""
+
+
+[[tool.dynamic-metadata]]
+field = "version"
+provider = "scikit_build_core.metadata.setuptools_scm"
 
 
 [tool.setuptools_scm]
@@ -70,10 +87,9 @@ local_scheme = "no-local-version"
 [tool.cibuildwheel]
 build-frontend = "uv"
 build = [
-    "cp39-*",   # We have portable abi3 wheels.
-    "cp314t-*", # Free-threading / nogil.
-    "cp315t-*", # No stable ABI for free-treading, yet.
-    # PyPy 3.9 is EOL and doesn't build on Windows anymore.
+    "cp310-*",  # abi3 covers CPython 3.10+.
+    "cp314t-*",
+    "cp315t-*",
     "pp310-*",
     "pp311-*",
 ]

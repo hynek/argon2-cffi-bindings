@@ -139,9 +139,9 @@ jobs:
 
       - name: Import package
         run: python -c 'from _argon2_cffi_bindings import ffi, lib; print(lib.ARGON2_VERSION_NUMBER)'
-      - run: otool -L src/_argon2_cffi_bindings/_ffi.abi3.so
+      - run: otool -L "$(python -c 'import _argon2_cffi_bindings._ffi as m; print(m.__file__)')"
         if: startsWith(matrix.os , 'macos')
-      - run: ldd src/_argon2_cffi_bindings/_ffi.abi3.so
+      - run: ldd "$(python -c 'import _argon2_cffi_bindings._ffi as m; print(m.__file__)')"
         if: startsWith(matrix.os , 'ubuntu')
 
       - name: Check presence of pytest
@@ -164,6 +164,22 @@ jobs:
 
       - run: python -Im tox run -e cog-check
 
+  gen-check:
+    name: Ensure the generated CFFI source is up-to-date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          cache: pip
+          python-version: "3.x"
+
+      - run: python -Im pip install tox
+
+      - run: python -Im tox run -e gen-check
+
   required-checks-pass:
     name: Ensure everything required is passing for branch protection
     if: always()
@@ -175,6 +191,7 @@ jobs:
       - install-dev
       - system-package
       - cog-check
+      - gen-check
 
     runs-on: ubuntu-latest
 
