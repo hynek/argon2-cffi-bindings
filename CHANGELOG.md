@@ -43,7 +43,7 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
   Building from source requires CMake now.
   If none is found, it is downloaded automatically as part of the build.
   [#173](https://github.com/hynek/argon2-cffi-bindings/pull/173)
-  
+
 - The abi3 wheels now target CPython 3.10+ instead of 3.9+.
 - [#173](https://github.com/hynek/argon2-cffi-bindings/pull/173)
 
