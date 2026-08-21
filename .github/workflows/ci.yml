@@ -79,6 +79,91 @@ jobs:
       - run: python -Im pip install tox
       - run: python -Im tox run -e $PYTHON
 
+  abi3t-wheel:
+    name: abi3t cross-test on ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # A cross-section of the platforms we build 3.15 wheels for.
+        # On Linux, tests both libcs and riscv64. Uses the cibuildwheel images.
+        # Windows and macOS use setup-python.
+        include:
+          - name: manylinux_x86_64
+            os: ubuntu-latest
+            container: quay.io/pypa/manylinux_2_34_x86_64@sha256:db817cd4c670f1191d74db6a94a0b115954af78861db7da660de4e93ebf2984c # 2026.08.04-1
+          - name: musllinux_x86_64
+            os: ubuntu-latest
+            container: quay.io/pypa/musllinux_1_2_x86_64@sha256:f130bd3e3aebb39abcdec28a89f987f0d31b52d74bac5852318303698e9a5033 # 2026.08.04-1
+          - name: manylinux_riscv64
+            os: ubuntu-24.04-riscv
+            container: quay.io/pypa/manylinux_2_39_riscv64@sha256:41197d59628c256b0fde14a5dd5bb306e17665c515a8385e43cc72c1da1d7866 # 2026.08.04-1
+          - name: windows-latest
+            os: windows-latest
+          - name: windows-11-arm
+            os: windows-11-arm
+          - name: macos-latest
+            os: macos-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        id: python-ft
+        if: ${{ !matrix.container }}
+        with:
+          python-version: 3.15t
+          allow-prereleases: true
+          cache: pip
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        id: python-gil
+        if: ${{ !matrix.container }}
+        with:
+          python-version: "3.15"
+          allow-prereleases: true
+
+      - name: Pick the interpreters
+        shell: bash
+        env:
+          IN_CONTAINER: ${{ matrix.container && 'yes' || '' }}
+          SETUP_FT: ${{ steps.python-ft.outputs.python-path }}
+          SETUP_GIL: ${{ steps.python-gil.outputs.python-path }}
+        run: |
+          if [[ -n "$IN_CONTAINER" ]]; then
+            echo "FT_PYTHON=/opt/python/cp315-cp315t/bin/python" >>"$GITHUB_ENV"
+            echo "GIL_PYTHON=/opt/python/cp315-cp315/bin/python" >>"$GITHUB_ENV"
+          else
+            echo "FT_PYTHON=$SETUP_FT" >>"$GITHUB_ENV"
+            echo "GIL_PYTHON=$SETUP_GIL" >>"$GITHUB_ENV"
+          fi
+
+      - name: Build a wheel on free-threaded Python
+        shell: bash
+        run: |
+          "$FT_PYTHON" -Im pip install build
+          "$FT_PYTHON" -Im build --wheel
+
+      - name: Ensure the wheel targets the free-threaded stable ABI
+        shell: bash
+        run: |
+          ls dist/
+          test -e dist/*-cp315-abi3.abi3t-*.whl
+
+      - name: Test the wheel on free-threaded Python
+        shell: bash
+        run: |
+          "$FT_PYTHON" -Im pip install dist/*.whl pytest
+          "$FT_PYTHON" -Im pytest
+
+      - name: Test the same wheel on GIL Python
+        shell: bash
+        run: |
+          "$GIL_PYTHON" -Im pip install dist/*.whl pytest
+          "$GIL_PYTHON" -Im pytest
+
   tests-pypy:
     name: Tests against latest PyPy
     runs-on: ubuntu-latest
@@ -187,6 +272,7 @@ jobs:
     needs:
       - build-package
       - tests
+      - abi3t-wheel
       - tests-pypy
       - install-dev
       - system-package
