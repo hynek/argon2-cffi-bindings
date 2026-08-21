@@ -146,22 +146,42 @@ jobs:
           "$FT_PYTHON" -Im pip install build
           "$FT_PYTHON" -Im build --wheel
 
-      - name: Ensure the wheel targets the free-threaded stable ABI
+      - name: Select the free-threaded stable ABI wheel
         shell: bash
         run: |
           ls dist/
-          test -e dist/*-cp315-abi3.abi3t-*.whl
+          WHEEL=$(find dist -type f | grep -E '/[^/]+-cp315-abi3\.abi3t-[^/]+\.whl$')
+          test "$(printf '%s\n' "$WHEEL" | wc -l)" -eq 1
+          echo "WHEEL=$WHEEL" >>"$GITHUB_ENV"
+
+      - name: Check the Unix extension suffix
+        if: ${{ runner.os != 'Windows' }}
+        shell: bash
+        run: |
+          "$FT_PYTHON" -c '
+          import re
+          import sys
+          import zipfile
+
+          with zipfile.ZipFile(sys.argv[1]) as wheel:
+              names = wheel.namelist()
+
+          assert any(
+              re.search(r"\.abi3t(?:-[^/]*)?\.so$", name)
+              for name in names
+          ), names
+          ' "$WHEEL"
 
       - name: Test the wheel on free-threaded Python
         shell: bash
         run: |
-          "$FT_PYTHON" -Im pip install dist/*.whl pytest
+          "$FT_PYTHON" -Im pip install "$WHEEL" pytest
           "$FT_PYTHON" -Im pytest
 
       - name: Test the same wheel on GIL Python
         shell: bash
         run: |
-          "$GIL_PYTHON" -Im pip install dist/*.whl pytest
+          "$GIL_PYTHON" -Im pip install "$WHEEL" pytest
           "$GIL_PYTHON" -Im pytest
 
   tests-pypy:
