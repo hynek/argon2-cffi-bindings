@@ -25,6 +25,7 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
 
 - Free-threaded stable ABI ([PEP 803](https://peps.python.org/pep-0803/)) wheels.
   Free-threaded CPython 3.15 and later is covered by a single `cp315-abi3.abi3t` wheel that also installs on GIL-enabled CPython 3.15+.
+  [#143](https://github.com/hynek/argon2-cffi-bindings/pull/143)
 
 
 ## [26.1.0](https://github.com/hynek/argon2-cffi-bindings/compare/25.1.0...26.1.0) - 2026-08-20
