@@ -33,6 +33,7 @@ The provided CFFI bindings are compiled in API mode.
 Best effort is given to provide binary wheels for as many platforms as possible.
 
 Building from source requires a C compiler and [CMake](https://cmake.org).
+On free-threaded CPython 3.15 and later, it must be CMake 4.4.1 or newer.
 If no suitable CMake is found, one is downloaded automatically as part of the build.
 
 

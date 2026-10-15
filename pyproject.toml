@@ -39,7 +39,8 @@ classifiers = [
 ]
 dependencies = [
     "cffi>=1.0.1; python_version < '3.14'",
-    "cffi>=2; python_version >= '3.14'",
+    "cffi>=2; python_version >= '3.14' and python_version < '3.15'",
+    "cffi>=2.1.1; python_version >= '3.15'",
 ]
 
 [dependency-groups]
@@ -60,8 +61,10 @@ minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
 # The name-based package auto-detection doesn't find our private package name.
 wheel.packages = ["src/_argon2_cffi_bindings"]
-# Use the CPython 3.10+ stable ABI where supported.
-wheel.py-api = "cp310"
+# On platforms that support binary wheel builds, use the CPython 3.15+
+# free-threaded stable ABI on 3.15+ and the CPython 3.10+ stable ABI on
+# 3.10-3.14.
+wheel.py-api = "cp310.cp315t"
 # Build inputs, not package data.
 wheel.exclude = [
     "_argon2_cffi_bindings/_ffi.cdef.txt",
@@ -72,6 +75,12 @@ wheel.exclude = [
 [[tool.scikit-build.overrides]]
 if.env.PYODIDE = true
 wheel.py-api = ""
+# The free-threaded stable ABI needs CMake 4.4's FindPython; 4.4.0's Windows
+# SABI detection is broken, so require 4.4.1.
+[[tool.scikit-build.overrides]]
+if.abi-flags = "t"
+if.python-version = ">=3.15"
+cmake.version = ">=4.4.1"
 
 
 [[tool.dynamic-metadata]]
@@ -88,8 +97,8 @@ local_scheme = "no-local-version"
 build-frontend = "uv"
 build = [
     "cp310-*",  # abi3 covers CPython 3.10+.
-    "cp314t-*",
-    "cp315t-*",
+    "cp314t-*",  # 3.14 predates the free-threaded stable ABI.
+    "cp315t-*",  # abi3.abi3t covers CPython 3.15+, GIL and free-threaded.
     "pp310-*",
     "pp311-*",
 ]
