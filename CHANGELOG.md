@@ -34,6 +34,10 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
 Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/commit/f57e61e19229e23c4445b85494dbf7c07de721cb).
 
 
+### Removed
+
+- macOS on Intel (x86-64) CPUs.
+
 
 ### Added
 
