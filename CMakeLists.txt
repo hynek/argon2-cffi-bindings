@@ -7,8 +7,12 @@ project(
   VERSION ${SKBUILD_PROJECT_VERSION}
   LANGUAGES C)
 
-find_package(Python REQUIRED COMPONENTS Interpreter Development.Module
-                                        ${SKBUILD_SABI_COMPONENT})
+if(CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+  find_package(Python REQUIRED COMPONENTS Development.Module)
+else()
+  find_package(Python REQUIRED COMPONENTS Interpreter Development.Module
+                                          ${SKBUILD_SABI_COMPONENT})
+endif()
 
 # Checked in because supported PyPy releases don't provide cffi-gen-src.
 set(FFI_C "${CMAKE_CURRENT_SOURCE_DIR}/src/_argon2_cffi_bindings/_ffi.c")
