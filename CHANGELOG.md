@@ -40,11 +40,6 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
 Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/commit/f57e61e19229e23c4445b85494dbf7c07de721cb).
 
 
-### Removed
-
-- macOS on Intel (x86-64) CPUs.
-
-
 ### Added
 
 - Python 3.15 wheels.
@@ -76,6 +71,9 @@ Vendoring *Argon2* @ [**`f57e61e`**](https://github.com/P-H-C/phc-winner-argon2/
 
 - Python 3.13t wheels.
   Free-threading on 3.13 was always only experimental and both [*manylinux*](https://github.com/pypa/manylinux/issues/1882) and [*cibuildwheel*](https://github.com/pypa/cibuildwheel/pull/2684) dropped support for it.
+
+
+- macOS on Intel (x86-64) CPUs.
 
 
 ## [25.1.0](https://github.com/hynek/argon2-cffi-bindings/compare/21.2.0...25.1.0) - 2025-07-30
